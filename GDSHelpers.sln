@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GDSHelpers", "GDSHelpers\GDSHelpers.csproj", "{0D274561-25FB-4338-87FB-6E73791CEC50}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D274561-25FB-4338-87FB-6E73791CEC50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D274561-25FB-4338-87FB-6E73791CEC50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D274561-25FB-4338-87FB-6E73791CEC50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D274561-25FB-4338-87FB-6E73791CEC50}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2DD1944C-8DA4-4C31-BABA-878B6660DF8C}
+	EndGlobalSection
+EndGlobal
