@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace GDSHelpers.TagHelpers
@@ -13,8 +12,8 @@ namespace GDSHelpers.TagHelpers
             Caption = "";
         }
 
-        [HtmlAttributeName("heading")]
-        public GdsEnums.Headings Heading { get; set; }
+        [HtmlAttributeName("heading-type")]
+        public GdsEnums.Headings HeadingType { get; set; }
 
         [HtmlAttributeName("text")]
         public string Text { get; set; }
@@ -24,9 +23,9 @@ namespace GDSHelpers.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            var tag = Heading.ToString().ToLower();
-            var cssClass = GdsEnums.GetCssClassFromEnum(Heading);
-            
+            var tag = HeadingType.ToString().ToLower();
+            var cssClass = GdsEnums.GetCssClassFromEnum(HeadingType);
+
             output.TagName = tag;
             output.Attributes.SetAttribute("class", cssClass);
 
