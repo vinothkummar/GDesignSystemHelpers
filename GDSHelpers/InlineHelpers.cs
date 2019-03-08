@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Text;
 using GDSHelpers.Models.FormSchema;
 using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
@@ -19,27 +21,53 @@ namespace GDSHelpers
         /// <returns>Returns the HTML for GDS compliant questions</returns>
         public static IHtmlContent GdsQuestion(this IHtmlHelper helper, QuestionVM question, object htmlAttributes = null)
         {
+            IHtmlContent content;
+
             switch (question.InputType)
             {
                 case "textbox":
-                    return BuildTextBox(question);
+                    content = BuildTextBox(question);
+                    break;
 
                 case "textarea":
-                    return BuildTextArea(question);
+                    content = BuildTextArea(question);
+                    break;
 
                 case "optionlist":
-                    return BuildOptionList(question);
+                    content = BuildOptionList(question);
+                    break;
 
                 case "selectlist":
-                    return BuildSelectList(question);
+                    content = BuildSelectList(question);
+                    break;
 
                 case "checkboxlist":
-                    return BuildCheckboxList(question);
+                    content = BuildCheckboxList(question);
+                    break;
+
+                default:
+                    content = BuildInfoPage(question);
+                    break;
+
             }
-            return new TagBuilder("span");
+
+            return new HtmlString(content.ToString());
+
         }
 
+        private static IHtmlContent BuildInfoPage(QuestionVM question)
+        {
+            var title = question.Question;
+            var additionalText = question.AdditionalText;
 
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"<p class=\"govuk-body\">{title}</p>");
+            sb.AppendLine($"<p class=\"govuk-body\">{additionalText}</p>");
+
+            return new HtmlString(sb.ToString());
+
+        }
 
         private static IHtmlContent BuildTextBox(QuestionVM question)
         {
@@ -71,6 +99,8 @@ namespace GDSHelpers
         {
             var elementId = question.QuestionId;
             var showCounter = question.Validation?.MaxLength != null;
+            var counterCount = question.Validation?.MaxLength?.Max;
+            var counterType = question.Validation?.MaxLength?.Type == "words" ? "maxwords" : "maxlength";
             var counterCss = showCounter ? "js-character-count" : "";
 
             var isErrored = question.Validation?.IsErrored == true;
@@ -81,7 +111,7 @@ namespace GDSHelpers
             var sb = new StringBuilder();
 
             if (showCounter)
-                sb.AppendLine("<div class=\"govuk-character-count\" data-module=\"character-count\" data-maxlength=\"200\">");
+                sb.AppendLine($"<div class=\"govuk-character-count\" data-module=\"character-count\" data-{counterType}=\"{counterCount}\">");
 
             sb.AppendLine($"<div class=\"govuk-form-group {erroredCss}\">");
             sb.AppendLine($"<label class=\"govuk-label\"  for=\"{elementId}\">{question.Question}</label>");
@@ -95,13 +125,14 @@ namespace GDSHelpers
             sb.AppendLine($"<textarea class=\"govuk-textarea {erroredInputCss} {counterCss}\" id=\"{elementId}\" " +
                       $"name=\"{elementId}\" rows=\"5\" aria-describedby=\"{elementId}-hint\">{question.Answer}</textarea>");
 
-            if (showCounter)
-                sb.AppendLine($"<span id=\"{elementId}-info\" class=\"govuk-hint govuk-character-count__message\" aria-live=\"polite\"></span>");
-
             sb.AppendLine("</div>");
 
+
             if (showCounter)
+            {
+                sb.AppendLine($"<span id=\"{elementId}-info\" class=\"govuk-hint govuk-character-count__message\" aria-live=\"polite\"></span>");
                 sb.AppendLine("</div>");
+            }
 
             return new HtmlString(sb.ToString());
         }
@@ -131,7 +162,8 @@ namespace GDSHelpers
 
 
             var list = question.Options.Split(';');
-            var inlineCSS = list.Length < 3 ? "govuk-radios--inline" : "";
+            var inlineCSS = "";
+            //list.Length < 3 ? "govuk-radios--inline" : "";
             sb.AppendLine($"<div class=\"govuk-radios {inlineCSS}\">");
 
 
@@ -180,7 +212,7 @@ namespace GDSHelpers
             sb.AppendLine($"<label class=\"govuk-label\" for=\"{elementId}\">{question.Question}</label>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
-                sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");        
+                sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");
 
             if (isErrored)
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
@@ -204,7 +236,7 @@ namespace GDSHelpers
             return new HtmlString(sb.ToString());
 
         }
-        
+
         private static IHtmlContent BuildCheckboxList(QuestionVM question)
         {
             var elementId = question.QuestionId;
@@ -263,7 +295,7 @@ namespace GDSHelpers
             return new HtmlString(sb.ToString());
 
         }
-        
+
         public static IHtmlContent GdsButton(this IHtmlHelper helper, string buttonType, string buttonText, object htmlAttributes = null)
         {
             var button = new TagBuilder("button");
