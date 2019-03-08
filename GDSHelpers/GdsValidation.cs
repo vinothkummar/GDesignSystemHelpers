@@ -33,6 +33,10 @@ namespace GDSHelpers
                 var answer = requestForm[question.QuestionId].ToString();
                 question.Answer = answer;
 
+                //Set the next page id if our answer matches a rule
+                var nextPageId = question.AnswerLogic?.FirstOrDefault(m => m.Value == answer)?.NextPageId;
+                if (nextPageId != null) pageVm.NextPageId = nextPageId;
+
 
                 //Check if question is required
                 if (question.Validation?.Required.IsRequired == true && string.IsNullOrEmpty(answer))
