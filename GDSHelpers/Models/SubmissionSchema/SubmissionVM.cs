@@ -17,6 +17,10 @@ namespace GDSHelpers.Models.SubmissionSchema
         public string Id { get; set; }
 
 
+        [JsonProperty("version")]
+        public string Version { get; set; }
+
+
         [JsonProperty("form_name")]
         public string FormName { get; set; }
         
@@ -24,7 +28,7 @@ namespace GDSHelpers.Models.SubmissionSchema
         [JsonProperty("date_created")]
         public string DateCreated { get; set; }
 
-
+        
         [JsonProperty("answers")]
         public IEnumerable<AnswerVM> Answers { get; set; }
 

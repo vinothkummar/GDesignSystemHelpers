@@ -4,6 +4,10 @@ namespace GDSHelpers.Models.SubmissionSchema
 {
     public class AnswerVM
     {
+        [JsonProperty("page_id")]
+        public string PageId { get; set; }
+
+
         [JsonProperty("question_id")]
         public string QuestionId { get; set; }
 
