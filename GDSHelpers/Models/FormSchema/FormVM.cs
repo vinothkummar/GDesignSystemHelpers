@@ -9,6 +9,10 @@ namespace GDSHelpers.Models.FormSchema
         public string Id { get; set; }
 
 
+        [JsonProperty("version")]
+        public string Version { get; set; }
+
+
         [JsonProperty("form_name")]
         public string FormName { get; set; }
 
