@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using GDSHelpers.Models.FormSchema;
-using GDSHelpers.Models.SubmissionSchema;
 using Microsoft.AspNetCore.Http;
 
 namespace GDSHelpers
@@ -15,12 +14,6 @@ namespace GDSHelpers
         /// <returns>A validated PageVM object with error flags and messages marked against each question.</returns>
         PageVM ValidatePage(PageVM pageVm, IFormCollection requestForm);
 
-        /// <summary>
-        /// Builds a SubmissionVM from the current pageVM
-        /// </summary>
-        /// <param name="pagevm">The current PageVM</param>
-        /// <returns>Returns a SubmissionVM model ready to be serialized and stored in a DB.</returns>
-        SubmissionVM BuildSubmission(PageVM pagevm);
     }
 
     public class GdsValidation : IGdsValidation
@@ -67,21 +60,6 @@ namespace GDSHelpers
             }
 
             return pageVm;
-        }
-
-        public SubmissionVM BuildSubmission(PageVM pageVm)
-        {
-            var answers = pageVm.Questions.Select(m =>
-                new AnswerVM
-                {
-                    QuestionId = m.QuestionId,
-                    Question = m.Question,
-                    Answer = m.Answer
-                });
-
-            var submissionVm = new SubmissionVM { Answers = answers };
-
-            return submissionVm;
         }
 
     }
