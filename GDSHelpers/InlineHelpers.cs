@@ -54,13 +54,16 @@ namespace GDSHelpers
 
         private static IHtmlContent BuildInfoPage(QuestionVM question)
         {
-            var title = question.Question;
-            var additionalText = question.AdditionalText;
-
             var sb = new StringBuilder();
 
-            sb.AppendLine($"<p class=\"govuk-body\">{title}</p>");
-            sb.AppendLine($"<p class=\"govuk-body\">{additionalText}</p>");
+            if (!string.IsNullOrEmpty(question.Question))
+                sb.AppendLine($"<p class=\"govuk-body\">{question.Question}</p>");
+
+            if (!string.IsNullOrEmpty(question.AdditionalText))
+                sb.AppendLine($"<p class=\"govuk-body\">{question.AdditionalText}</p>");
+
+            if (!string.IsNullOrEmpty(question.HtmlContent))
+                sb.AppendLine(question.HtmlContent);
 
             return new HtmlString(sb.ToString());
 
@@ -81,6 +84,9 @@ namespace GDSHelpers
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
                 sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");
+
+            if (!string.IsNullOrEmpty(question.HtmlContent))
+                sb.AppendLine(question.HtmlContent);
 
             if (isErrored)
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
@@ -115,6 +121,9 @@ namespace GDSHelpers
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
                 sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");
+
+            if (!string.IsNullOrEmpty(question.HtmlContent))
+                sb.AppendLine(question.HtmlContent);
 
             if (isErrored)
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
@@ -153,6 +162,9 @@ namespace GDSHelpers
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
                 sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");
+
+            if (!string.IsNullOrEmpty(question.HtmlContent))
+                sb.AppendLine(question.HtmlContent);
 
             if (isErrored)
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
@@ -209,6 +221,9 @@ namespace GDSHelpers
             if (!string.IsNullOrEmpty(question.AdditionalText))
                 sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");
 
+            if (!string.IsNullOrEmpty(question.HtmlContent))
+                sb.AppendLine(question.HtmlContent);
+
             if (isErrored)
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
 
@@ -251,6 +266,9 @@ namespace GDSHelpers
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
                 sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");
+
+            if (!string.IsNullOrEmpty(question.HtmlContent))
+                sb.AppendLine(question.HtmlContent);
 
             if (isErrored)
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
