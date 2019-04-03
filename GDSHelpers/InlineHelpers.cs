@@ -57,10 +57,10 @@ namespace GDSHelpers
             var sb = new StringBuilder();
 
             if (!string.IsNullOrEmpty(question.Question))
-                sb.AppendLine($"<p class=\"govuk-body\">{question.Question}</p>");
+                sb.AppendLine($"<p class=\"govuk-body gds-question\">{question.Question}</p>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
-                sb.AppendLine($"<p class=\"govuk-body\">{question.AdditionalText}</p>");
+                sb.AppendLine($"<p class=\"govuk-body gds-hint\">{question.AdditionalText}</p>");
 
             if (!string.IsNullOrEmpty(question.HtmlContent))
                 sb.AppendLine(question.HtmlContent);
@@ -80,10 +80,10 @@ namespace GDSHelpers
             var sb = new StringBuilder();
 
             sb.AppendLine($"<div class=\"govuk-form-group {erroredCss}\">");
-            sb.AppendLine($"<label class=\"govuk-label\" for=\"{elementId}\">{question.Question}</label>");
+            sb.AppendLine($"<label class=\"govuk-label gds-question\" for=\"{elementId}\">{question.Question}</label>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
-                sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");
+                sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint gds-hint\">{question.AdditionalText}</span>");
 
             if (!string.IsNullOrEmpty(question.HtmlContent))
                 sb.AppendLine(question.HtmlContent);
@@ -117,10 +117,10 @@ namespace GDSHelpers
                 sb.AppendLine($"<div class=\"govuk-character-count\" data-module=\"character-count\" data-{counterType}=\"{counterCount}\">");
 
             sb.AppendLine($"<div class=\"govuk-form-group {erroredCss}\">");
-            sb.AppendLine($"<label class=\"govuk-label\"  for=\"{elementId}\">{question.Question}</label>");
+            sb.AppendLine($"<label class=\"govuk-label gds-question\"  for=\"{elementId}\">{question.Question}</label>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
-                sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");
+                sb.AppendLine($"<span id=\"{elementId}-hint gds-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");
 
             if (!string.IsNullOrEmpty(question.HtmlContent))
                 sb.AppendLine(question.HtmlContent);
@@ -157,11 +157,11 @@ namespace GDSHelpers
             sb.AppendLine("<fieldset class=\"govuk-fieldset\" aria-describedby=\"changed-name-hint\">");
 
             sb.AppendLine("<legend class=\"govuk-fieldset__legend govuk-fieldset__legend--xl\">");
-            sb.AppendLine($"<label class=\"govuk-label\">{question.Question}</label>");
+            sb.AppendLine($"<label class=\"govuk-label gds-question\">{question.Question}</label>");
             sb.AppendLine("</legend>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
-                sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");
+                sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint gds-hint\">{question.AdditionalText}</span>");
 
             if (!string.IsNullOrEmpty(question.HtmlContent))
                 sb.AppendLine(question.HtmlContent);
@@ -216,10 +216,10 @@ namespace GDSHelpers
             var sb = new StringBuilder();
 
             sb.AppendLine($"<div class=\"govuk-form-group {erroredCss}\">");
-            sb.AppendLine($"<label class=\"govuk-label\" for=\"{elementId}\">{question.Question}</label>");
+            sb.AppendLine($"<label class=\"govuk-label gds-question\" for=\"{elementId}\">{question.Question}</label>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
-                sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");
+                sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint gds-hint\">{question.AdditionalText}</span>");
 
             if (!string.IsNullOrEmpty(question.HtmlContent))
                 sb.AppendLine(question.HtmlContent);
@@ -261,11 +261,11 @@ namespace GDSHelpers
             sb.AppendLine("<fieldset class=\"govuk-fieldset\" aria-describedby=\"changed-name-hint\">");
 
             sb.AppendLine("<legend class=\"govuk-fieldset__legend govuk-fieldset__legend--xl\">");
-            sb.AppendLine($"<label class=\"govuk-label\">{question.Question}</label>");
+            sb.AppendLine($"<label class=\"govuk-label gds-question\">{question.Question}</label>");
             sb.AppendLine("</legend>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
-                sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint\">{question.AdditionalText}</span>");
+                sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint gds-hint\">{question.AdditionalText}</span>");
 
             if (!string.IsNullOrEmpty(question.HtmlContent))
                 sb.AppendLine(question.HtmlContent);
