@@ -36,6 +36,9 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("max-length")]
         public int MaxLength { get; set; }
 
+        [HtmlAttributeName("threshold")]
+        public int Threshold { get; set; } = 0;
+
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
@@ -52,11 +55,15 @@ namespace GDSHelpers.TagHelpers
                 output.Attributes.Add("class", "govuk-character-count");
                 output.Attributes.Add("data-module", "character-count");
 
+                if (Threshold > 0)
+                    output.Attributes.Add("data-threshold", Threshold);
+
                 switch (CountType)
                 {
                     case GdsEnums.CountTypes.Characters:
                         output.Attributes.Add("data-maxlength", MaxLength);
                         break;
+
                     case GdsEnums.CountTypes.Words:
                         output.Attributes.Add("data-maxwords", MaxLength);
                         break;

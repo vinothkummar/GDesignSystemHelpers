@@ -17,6 +17,10 @@ namespace GDSHelpers.Models.FormSchema
         public string AdditionalText { get; set; }
 
 
+        [JsonProperty("html_content")]
+        public string HtmlContent { get; set; }
+
+
         [JsonProperty("data_type")]
         public string DataType { get; set; }
 
@@ -26,7 +30,11 @@ namespace GDSHelpers.Models.FormSchema
 
 
         [JsonProperty("options")]
-        public string Options { get; set; }
+        public IEnumerable<OptionVM> Options { get; set; }
+
+
+        //[JsonProperty("options")]
+        //public string Options { get; set; }
 
 
         [JsonProperty("answer_logic")]

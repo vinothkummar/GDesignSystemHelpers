@@ -1,9 +1,6 @@
-﻿using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using GDSHelpers.Models.FormSchema;
 using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
@@ -161,35 +158,70 @@ namespace GDSHelpers
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
 
 
-            var list = question.Options.Split(';');
-            var inlineCSS = "";
-            //list.Length < 3 ? "govuk-radios--inline" : "";
-            sb.AppendLine($"<div class=\"govuk-radios {inlineCSS}\">");
-
-
             var count = 0;
-            foreach (var item in list)
+            var inlineCSS = "";
+            sb.AppendLine($"<div class=\"govuk-radios {inlineCSS}\">");
+            
+            foreach (var option in question.Options)
             {
-                var optionArr = item.Split('|');
-                var optionText = optionArr[0].Trim();
-                var optionHint = "";
-                if (optionArr.Length > 1)
-                    optionHint = optionArr[1].Trim();
+                var value = option.Value;
+                var text = option.Text;
+                var hint = option.Hint;
 
-                var checkedCss = question.Answer == optionText ? "checked" : "";
+                var checkedCss = question.Answer == value ? "checked" : "";
 
                 sb.AppendLine("<div class=\"govuk-radios__item\">");
-                sb.AppendLine($"<input class=\"govuk-radios__input\" id=\"{elementId}-{count}\" name=\"{elementId}\" type=\"radio\" value=\"{optionText}\" {checkedCss}>");
-                sb.AppendLine($"<label class=\"govuk-label govuk-radios__label\" for=\"{elementId}-{count}\">{optionText}</label>");
+                sb.AppendLine($"<input class=\"govuk-radios__input\" id=\"{elementId}-{count}\" name=\"{elementId}\" type=\"radio\" value=\"{text}\" {checkedCss}>");
+                sb.AppendLine($"<label class=\"govuk-label govuk-radios__label\" for=\"{elementId}-{count}\">{text}</label>");
 
-                if (optionArr.Length > 1)
-                    sb.AppendLine($"<span id=\"{elementId}-{count}-item-hint\" class=\"govuk-hint govuk-radios__hint\">{optionHint}</span>");
+                if (!string.IsNullOrEmpty(hint))
+                    sb.AppendLine($"<span id=\"{elementId}-{count}-item-hint\" class=\"govuk-hint govuk-radios__hint\">{hint}</span>");
 
                 sb.AppendLine("</div>");
                 count += 1;
+
             }
 
             sb.AppendLine("</div>");
+
+
+
+
+
+
+
+
+
+            //var list = question.Options.Split(';');
+            //var inlineCSS = "";
+            ////list.Length < 3 ? "govuk-radios--inline" : "";
+            //sb.AppendLine($"<div class=\"govuk-radios {inlineCSS}\">");
+            
+            //var count = 0;
+            //foreach (var item in list)
+            //{
+            //    var optionArr = item.Split('|');
+            //    var optionText = optionArr[0].Trim();
+            //    var optionHint = "";
+            //    if (optionArr.Length > 1)
+            //        optionHint = optionArr[1].Trim();
+
+            //    var checkedCss = question.Answer == optionText ? "checked" : "";
+
+            //    sb.AppendLine("<div class=\"govuk-radios__item\">");
+            //    sb.AppendLine($"<input class=\"govuk-radios__input\" id=\"{elementId}-{count}\" name=\"{elementId}\" type=\"radio\" value=\"{optionText}\" {checkedCss}>");
+            //    sb.AppendLine($"<label class=\"govuk-label govuk-radios__label\" for=\"{elementId}-{count}\">{optionText}</label>");
+
+            //    if (optionArr.Length > 1)
+            //        sb.AppendLine($"<span id=\"{elementId}-{count}-item-hint\" class=\"govuk-hint govuk-radios__hint\">{optionHint}</span>");
+
+            //    sb.AppendLine("</div>");
+            //    count += 1;
+            //}
+
+            //sb.AppendLine("</div>");
+
+
 
             sb.AppendLine("</fieldset>");
             sb.AppendLine("</div>");
@@ -218,20 +250,33 @@ namespace GDSHelpers
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
 
 
-            var list = question.Options.Split(';');
-
+            
             sb.AppendLine($"<select class=\"govuk-select\" id=\"{elementId}\" name=\"{elementId}\">");
             sb.AppendLine("<option value>Please select</option>");
-
-            foreach (var item in list)
+            if (question.Options != null)
             {
-                var isSelected = question.Answer == item ? "checked" : "";
-                sb.AppendLine($"<option value=\"{item}\" {isSelected}>{item}</option>");
+                foreach (var option in question.Options)
+                {
+                    var isSelected = question.Answer == option.Value ? "checked" : "";
+                    sb.AppendLine($"<option value=\"{option.Value}\" {isSelected}>{option.Text}</option>");
+                }
             }
-
             sb.AppendLine("</select>");
-
             sb.AppendLine("</div>");
+            
+
+            //var list = question.Options.Split(';');
+            //sb.AppendLine($"<select class=\"govuk-select\" id=\"{elementId}\" name=\"{elementId}\">");
+            //sb.AppendLine("<option value>Please select</option>");
+
+            //foreach (var item in list)
+            //{
+            //    var isSelected = question.Answer == item ? "checked" : "";
+            //    sb.AppendLine($"<option value=\"{item}\" {isSelected}>{item}</option>");
+            //}
+
+            //sb.AppendLine("</select>");
+            //sb.AppendLine("</div>");
 
             return new HtmlString(sb.ToString());
 
@@ -261,33 +306,66 @@ namespace GDSHelpers
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
 
 
-            var list = question.Options.Split(';');
+
+
             sb.AppendLine($"<div class=\"govuk-checkboxes\">");
-
-
-            var count = 0;
-            foreach (var item in list)
+            if (question.Options != null)
             {
-                var optionArr = item.Split('|');
-                var optionText = optionArr[0].Trim();
-                var optionHint = "";
-                if (optionArr.Length > 1)
-                    optionHint = optionArr[1].Trim();
+                var count = 0;
+                foreach (var option in question.Options)
+                {
+                    var value = option.Value;
+                    var text = option.Text;
+                    var hint = option.Hint;
 
-                var checkedCss = question.Answer.Split(',').Contains(optionText) ? "checked" : "";
+                    var checkedCss = question.Answer == value ? "checked" : "";
 
-                sb.AppendLine("<div class=\"govuk-checkboxes__item\">");
-                sb.AppendLine($"<input class=\"govuk-checkboxes__input\" id=\"{elementId}-{count}\" name=\"{elementId}\" type=\"checkbox\" value=\"{optionText}\" {checkedCss}>");
-                sb.AppendLine($"<label class=\"govuk-label govuk-checkboxes__label\" for=\"{elementId}-{count}\">{optionText}</label>");
+                    sb.AppendLine("<div class=\"govuk-checkboxes__item\">");
+                    sb.AppendLine($"<input class=\"govuk-checkboxes__input\" id=\"{elementId}-{count}\" name=\"{elementId}\" type=\"checkbox\" value=\"{text}\" {checkedCss}>");
+                    sb.AppendLine($"<label class=\"govuk-label govuk-checkboxes__label\" for=\"{elementId}-{count}\">{text}</label>");
 
-                if (optionArr.Length > 1)
-                    sb.AppendLine($"<span id=\"{elementId}-{count}-item-hint\" class=\"govuk-hint govuk-checkboxes__hint\">{optionHint}</span>");
+                    if (!string.IsNullOrEmpty(hint))
+                        sb.AppendLine($"<span id=\"{elementId}-{count}-item-hint\" class=\"govuk-hint govuk-checkboxes__hint\">{hint}</span>");
 
-                sb.AppendLine("</div>");
-                count += 1;
+                    sb.AppendLine("</div>");
+                    count += 1;
+                }
             }
-
             sb.AppendLine("</div>");
+
+
+
+
+
+
+            //var list = question.Options.Split(';');
+            //sb.AppendLine($"<div class=\"govuk-checkboxes\">");
+
+            //var count = 0;
+            //foreach (var item in list)
+            //{
+            //    var optionArr = item.Split('|');
+            //    var optionText = optionArr[0].Trim();
+            //    var optionHint = "";
+            //    if (optionArr.Length > 1)
+            //        optionHint = optionArr[1].Trim();
+
+            //    var checkedCss = question.Answer.Split(',').Contains(optionText) ? "checked" : "";
+
+            //    sb.AppendLine("<div class=\"govuk-checkboxes__item\">");
+            //    sb.AppendLine($"<input class=\"govuk-checkboxes__input\" id=\"{elementId}-{count}\" name=\"{elementId}\" type=\"checkbox\" value=\"{optionText}\" {checkedCss}>");
+            //    sb.AppendLine($"<label class=\"govuk-label govuk-checkboxes__label\" for=\"{elementId}-{count}\">{optionText}</label>");
+
+            //    if (optionArr.Length > 1)
+            //        sb.AppendLine($"<span id=\"{elementId}-{count}-item-hint\" class=\"govuk-hint govuk-checkboxes__hint\">{optionHint}</span>");
+
+            //    sb.AppendLine("</div>");
+            //    count += 1;
+            //}
+
+            //sb.AppendLine("</div>");
+
+
 
             sb.AppendLine("</fieldset>");
             sb.AppendLine("</div>");
