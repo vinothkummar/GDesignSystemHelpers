@@ -76,12 +76,15 @@ namespace GDSHelpers
             var errorMsg = question.Validation?.ErrorMessage;
             var erroredCss = isErrored ? "govuk-form-group--error" : "";
             var erroredInputCss = isErrored ? "govuk-input--error" : "";
+
             var showWhen = CreateShowWhenAttributes(question);
+            var showWhenCss = string.IsNullOrEmpty(showWhen) ? "" : "gds-display-none";
+
             var questionId = $"id=\"q{elementId}\"";
 
             var sb = new StringBuilder();
 
-            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss}\" {showWhen}>");
+            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss} {showWhenCss}\" {showWhen}>");
             sb.AppendLine($"<label class=\"govuk-label gds-question\" for=\"{elementId}\">{question.Question}</label>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
@@ -114,19 +117,22 @@ namespace GDSHelpers
             var erroredInputCss = isErrored ? "govuk-textarea--error" : "";
 
             var questionId = $"id=\"q{elementId}\"";
+
             var showWhen = CreateShowWhenAttributes(question);
+            var showWhenCss = string.IsNullOrEmpty(showWhen) ? "" : "gds-display-none";
 
             var sb = new StringBuilder();
 
             if (showCounter)
             {
-                sb.AppendLine($"<div {questionId} class=\"govuk-character-count\" data-module=\"character-count\" data-{counterType}=\"{counterCount}\" {showWhen}>");
+                sb.AppendLine($"<div {questionId} class=\"govuk-character-count {showWhenCss}\" data-module=\"character-count\" data-{counterType}=\"{counterCount}\" {showWhen}>");
                 showWhen = "";
                 questionId = "";
+                showWhenCss = "";
             }
  
 
-            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss}\" {showWhen}>");
+            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss} {showWhenCss}\" {showWhen}>");
             sb.AppendLine($"<label class=\"govuk-label gds-question\"  for=\"{elementId}\">{question.Question}</label>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
@@ -164,8 +170,9 @@ namespace GDSHelpers
             var sb = new StringBuilder();
 
             var showWhen = CreateShowWhenAttributes(question);
+            var showWhenCss = string.IsNullOrEmpty(showWhen) ? "" : "gds-display-none";
 
-            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss}\" {showWhen}>");
+            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss} {showWhenCss}\" {showWhen}>");
             sb.AppendLine("<fieldset class=\"govuk-fieldset\" aria-describedby=\"changed-name-hint\">");
 
             sb.AppendLine("<legend class=\"govuk-fieldset__legend govuk-fieldset__legend--xl\">");
@@ -228,8 +235,9 @@ namespace GDSHelpers
             var sb = new StringBuilder();
 
             var showWhen = CreateShowWhenAttributes(question);
+            var showWhenCss = string.IsNullOrEmpty(showWhen) ? "" : "gds-display-none";
 
-            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss}\" {showWhen}>");
+            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss} {showWhenCss}\" {showWhen}>");
             sb.AppendLine($"<label class=\"govuk-label gds-question\" for=\"{elementId}\">{question.Question}</label>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
@@ -272,8 +280,9 @@ namespace GDSHelpers
             var sb = new StringBuilder();
 
             var showWhen = CreateShowWhenAttributes(question);
+            var showWhenCss = string.IsNullOrEmpty(showWhen) ? "" : "gds-display-none";
 
-            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss}\" {showWhen}>");
+            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss} {showWhenCss}\" {showWhen}>");
             sb.AppendLine("<fieldset class=\"govuk-fieldset\" aria-describedby=\"changed-name-hint\">");
 
             sb.AppendLine("<legend class=\"govuk-fieldset__legend govuk-fieldset__legend--xl\">");
