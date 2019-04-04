@@ -76,10 +76,12 @@ namespace GDSHelpers
             var errorMsg = question.Validation?.ErrorMessage;
             var erroredCss = isErrored ? "govuk-form-group--error" : "";
             var erroredInputCss = isErrored ? "govuk-input--error" : "";
+            var showWhen = CreateShowWhenAttributes(question);
+            var questionId = $"id=\"q{elementId}\"";
 
             var sb = new StringBuilder();
 
-            sb.AppendLine($"<div class=\"govuk-form-group {erroredCss}\">");
+            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss}\" {showWhen}>");
             sb.AppendLine($"<label class=\"govuk-label gds-question\" for=\"{elementId}\">{question.Question}</label>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
@@ -111,12 +113,20 @@ namespace GDSHelpers
             var erroredCss = isErrored ? "govuk-form-group--error" : "";
             var erroredInputCss = isErrored ? "govuk-textarea--error" : "";
 
+            var questionId = $"id=\"q{elementId}\"";
+            var showWhen = CreateShowWhenAttributes(question);
+
             var sb = new StringBuilder();
 
             if (showCounter)
-                sb.AppendLine($"<div class=\"govuk-character-count\" data-module=\"character-count\" data-{counterType}=\"{counterCount}\">");
+            {
+                sb.AppendLine($"<div {questionId} class=\"govuk-character-count\" data-module=\"character-count\" data-{counterType}=\"{counterCount}\" {showWhen}>");
+                showWhen = "";
+                questionId = "";
+            }
+ 
 
-            sb.AppendLine($"<div class=\"govuk-form-group {erroredCss}\">");
+            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss}\" {showWhen}>");
             sb.AppendLine($"<label class=\"govuk-label gds-question\"  for=\"{elementId}\">{question.Question}</label>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
@@ -149,11 +159,13 @@ namespace GDSHelpers
             var isErrored = question.Validation?.IsErrored == true;
             var errorMsg = question.Validation?.ErrorMessage;
             var erroredCss = isErrored ? "govuk-form-group--error" : "";
-
+            var questionId = $"id=\"q{elementId}\"";
 
             var sb = new StringBuilder();
 
-            sb.AppendLine($"<div class=\"govuk-form-group {erroredCss}\">");
+            var showWhen = CreateShowWhenAttributes(question);
+
+            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss}\" {showWhen}>");
             sb.AppendLine("<fieldset class=\"govuk-fieldset\" aria-describedby=\"changed-name-hint\">");
 
             sb.AppendLine("<legend class=\"govuk-fieldset__legend govuk-fieldset__legend--xl\">");
@@ -211,11 +223,13 @@ namespace GDSHelpers
             var isErrored = question.Validation?.IsErrored == true;
             var errorMsg = question.Validation?.ErrorMessage;
             var erroredCss = isErrored ? "govuk-form-group--error" : "";
-
+            var questionId = $"id=\"q{elementId}\"";
 
             var sb = new StringBuilder();
 
-            sb.AppendLine($"<div class=\"govuk-form-group {erroredCss}\">");
+            var showWhen = CreateShowWhenAttributes(question);
+
+            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss}\" {showWhen}>");
             sb.AppendLine($"<label class=\"govuk-label gds-question\" for=\"{elementId}\">{question.Question}</label>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
@@ -253,11 +267,13 @@ namespace GDSHelpers
             var isErrored = question.Validation?.IsErrored == true;
             var errorMsg = question.Validation?.ErrorMessage;
             var erroredCss = isErrored ? "govuk-form-group--error" : "";
-
+            var questionId = $"id=\"q{elementId}\"";
 
             var sb = new StringBuilder();
 
-            sb.AppendLine($"<div class=\"govuk-form-group {erroredCss}\">");
+            var showWhen = CreateShowWhenAttributes(question);
+
+            sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss}\" {showWhen}>");
             sb.AppendLine("<fieldset class=\"govuk-fieldset\" aria-describedby=\"changed-name-hint\">");
 
             sb.AppendLine("<legend class=\"govuk-fieldset__legend govuk-fieldset__legend--xl\">");
@@ -273,9 +289,7 @@ namespace GDSHelpers
             if (isErrored)
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
 
-
-
-
+            
             sb.AppendLine($"<div class=\"govuk-checkboxes\">");
             if (question.Options != null)
             {
@@ -335,6 +349,16 @@ namespace GDSHelpers
                     tagBuilder.MergeAttribute(customAttribute.Key, customAttribute.Value.ToString());
                 }
             }
+        }
+
+        private static string CreateShowWhenAttributes(QuestionVM question)
+        {
+            if (question.ShowWhen == null 
+                || string.IsNullOrEmpty(question.ShowWhen.QuestionId) 
+                || string.IsNullOrEmpty(question.ShowWhen.Answer))
+                return "";
+
+            return $" data-showwhen-questionid=\"{question.ShowWhen.QuestionId}\" data-showwhen-value=\"{question.ShowWhen.Answer}\" ";
         }
 
     }
