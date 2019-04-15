@@ -29,5 +29,8 @@ namespace GDSHelpers.Models.FormSchema
         public string NextPageId { get; set; }
 
 
+        [JsonProperty("previous_page_id")]
+        public string PreviousPageId { get; set; }
+
     }
 }
