@@ -22,6 +22,9 @@ namespace GDSHelpers.TagHelpers
             CountType = GdsEnums.CountTypes.None;
         }
 
+        [HtmlAttributeName("textarea-id")]
+        public string TextAreaId { get; set; }
+
         [HtmlAttributeName("for")]
         public ModelExpression For { get; set; }
 
@@ -44,6 +47,7 @@ namespace GDSHelpers.TagHelpers
         {
             output.TagName = "div";
             output.TagMode = TagMode.StartTagAndEndTag;
+            output.Attributes.SetAttribute("id", string.IsNullOrEmpty(TextAreaId) ? "" : TextAreaId);
 
             ViewContext.ViewData.ModelState.TryGetValue(For.Name, out var entry);
             var cssClass = entry?.Errors?.Count > 0 ? "govuk-form-group govuk-form-group--error" : "govuk-form-group";
