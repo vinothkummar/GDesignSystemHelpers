@@ -6,22 +6,16 @@ namespace GDSHelpers.TagHelpers
     public class LinkHelper : TagHelper
     {
         [HtmlAttributeName("link-id")]
-        public string ListItemId { get; set; }
-
-        [HtmlAttributeName("link-styles")]
-        public string ListItemStyles { get; set; }
+        public string ListItemId { get; set; } 
+         
         [HtmlAttributeName("link-text")]
-        public string LinkText { get; set; }
-
-        [HtmlAttributeName("url")]
-        public string Url { get; set; }
+        public string LinkText { get; set; } 
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "a";
-            output.Attributes.SetAttribute("id", string.IsNullOrEmpty(ListItemId) ? "" : ListItemId);
-            output.Attributes.SetAttribute("class", string.IsNullOrEmpty(ListItemStyles) ? "" : ListItemStyles); 
-            output.Attributes.SetAttribute("href", Url);
+            output.Attributes.SetAttribute("id", string.IsNullOrEmpty(ListItemId) ? "" : ListItemId); 
+             
             output.Content.SetContent(LinkText);
 
         }

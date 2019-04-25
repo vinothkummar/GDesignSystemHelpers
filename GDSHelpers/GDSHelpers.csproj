@@ -3,9 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>GDS Helpers</Description>
-    <Version>2019.4.24.9</Version>
-    <AssemblyVersion>2019.4.24.9</AssemblyVersion>
+    <Description>GDS Helpers</Description> 
   </PropertyGroup>
 
   <ItemGroup>

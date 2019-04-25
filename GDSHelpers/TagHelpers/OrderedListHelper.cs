@@ -8,16 +8,12 @@ namespace GDSHelpers.TagHelpers
     public class OrderedListHelper : TagHelper
     {
         [HtmlAttributeName("list-id")]
-        public string ListId { get; set; }
-
-        [HtmlAttributeName("list-styles")]
-        public string ListStyles { get; set; }
+        public string ListId { get; set; } 
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "ol";
-            output.Attributes.SetAttribute("id", string.IsNullOrEmpty(ListId) ? "" : ListId);
-            output.Attributes.SetAttribute("class", string.IsNullOrEmpty(ListStyles) ? "" : ListStyles);
+            output.Attributes.SetAttribute("id", string.IsNullOrEmpty(ListId) ? "" : ListId); 
 
             var children = await output.GetChildContentAsync();
             output.Content.SetHtmlContent(children);
