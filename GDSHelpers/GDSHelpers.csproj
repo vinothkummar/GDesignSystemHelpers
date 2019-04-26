@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>GDS Helpers</Description>
+    <Description>GDS Helpers</Description> 
   </PropertyGroup>
 
   <ItemGroup>

@@ -13,6 +13,9 @@ namespace GDSHelpers.TagHelpers
             ButtonStatus = GdsEnums.Status.Enabled;
         }
 
+        [HtmlAttributeName("button-id")]
+        public string ButtonId { get; set; }
+
         [HtmlAttributeName("button-type")]
         public GdsEnums.Buttons ButtonType { get; set; }
 
@@ -30,6 +33,7 @@ namespace GDSHelpers.TagHelpers
             output.TagName = "button ";
 
             var btnClass = StartNow ? "govuk-button govuk-button--start" : "govuk-button";
+            output.Attributes.SetAttribute("id", string.IsNullOrEmpty(ButtonId) ? "" : ButtonId);
             output.Attributes.SetAttribute("class", btnClass);
 
             output.Attributes.SetAttribute("type", ButtonType.ToString().ToLower());

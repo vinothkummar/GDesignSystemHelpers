@@ -19,6 +19,9 @@ namespace GDSHelpers.TagHelpers
             _htmlEncoder = htmlEncoder;
         }
 
+        [HtmlAttributeName("textbox-id")]
+        public string TextBoxId { get; set; }
+
         [HtmlAttributeName("for")]
         public ModelExpression For { get; set; }
 
@@ -31,7 +34,8 @@ namespace GDSHelpers.TagHelpers
         {
             output.TagName = "div";
             output.TagMode = TagMode.StartTagAndEndTag;
-            
+            output.Attributes.SetAttribute("id", string.IsNullOrEmpty(TextBoxId) ? "" : TextBoxId);
+
             ViewContext.ViewData.ModelState.TryGetValue(For.Name, out var entry);
             var cssClass = entry?.Errors?.Count > 0 ? "govuk-form-group govuk-form-group--error" : "govuk-form-group";
             output.Attributes.Add("class", cssClass);
