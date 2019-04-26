@@ -6,18 +6,22 @@ namespace GDSHelpers.TagHelpers
 
     [HtmlTargetElement("gds-govuk-license", ParentTag ="gds-footer-container-meta-item")] 
     public class GovUkLicenseHelper : TagHelper
-    { 
+    {
+
+
+        [HtmlAttributeName("gov-license-url")]
+        public string Url { get; set; }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "span";
 
             output.Attributes.SetAttribute("class", "govuk-footer__licence-description" );
 
-            var sb = new StringBuilder();
-            var href = "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"; 
+            var sb = new StringBuilder(); 
 
             sb.Append($"All content is available under the ");
-            sb.Append($"<a title=\"Open Government Licence v3.0 Link\" class=\"govuk-footer__link\" href=\"{href}\" rel='license'>Open Government Licence v3.0</a>");
+            sb.Append($"<a title=\"Open Government Licence Link\" class=\"govuk-footer__link\" href=\"{Url}\" rel='license'>Open Government Licence</a>");
             sb.Append($", except where otherwise stated"); 
 
             output.PostContent.SetHtmlContent(sb.ToString());
