@@ -7,6 +7,9 @@ namespace GDSHelpers.TagHelpers
     [HtmlTargetElement("gds-warning-text", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class WarningTextHelper : TagHelper
     {
+        [HtmlAttributeName("warning-id")]
+        public string WarningId { get; set; }
+
         [HtmlAttributeName("message")]
         public string Message { get; set; }
 
@@ -14,6 +17,7 @@ namespace GDSHelpers.TagHelpers
         {
             output.TagName = "div";
             output.Attributes.SetAttribute("class", "govuk-warning-text");
+            output.Attributes.SetAttribute("id", string.IsNullOrEmpty(WarningId) ? "" : WarningId);
 
             var sb = new StringBuilder();
             sb.AppendLine("<span class=\"govuk-warning-text__icon\" aria-hidden=\"true\">!</span>");
