@@ -166,6 +166,7 @@ namespace GDSHelpers
             var errorMsg = question.Validation?.ErrorMessage;
             var erroredCss = isErrored ? "govuk-form-group--error" : "";
             var questionId = $"id=\"q{elementId}\"";
+            var lblId = $"id=\"q{elementId}-label\"";
 
             var sb = new StringBuilder();
 
@@ -173,10 +174,10 @@ namespace GDSHelpers
             var showWhenCss = string.IsNullOrEmpty(showWhen) ? "" : "gds-display-none";
 
             sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss} {showWhenCss}\" {showWhen}>");
-            sb.AppendLine("<fieldset class=\"govuk-fieldset\" aria-describedby=\"changed-name-hint\">");
+            sb.AppendLine($"<fieldset class=\"govuk-fieldset\" aria-describedby=\"{lblId}\">");
 
             sb.AppendLine("<legend class=\"govuk-fieldset__legend govuk-fieldset__legend--xl\">");
-            sb.AppendLine($"<label class=\"govuk-label gds-question\">{question.Question}</label>");
+            sb.AppendLine($"<label {lblId} class=\"govuk-label gds-question\">{question.Question}</label>");
             sb.AppendLine("</legend>");
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
