@@ -346,8 +346,18 @@ namespace GDSHelpers
         }
 
 
+        public static IHtmlContent RenderPreAmble(this IHtmlHelper helper, PageVM page)
+        {
+            IHtmlContent content = new HtmlString(page.PreAmble);
+            return new HtmlString(content.ToString());
+        }
 
-
+        public static IHtmlContent RenderPostAmble(this IHtmlHelper helper, PageVM page)
+        {
+            IHtmlContent content = new HtmlString(page.PostAmble);
+            return new HtmlString(content.ToString());
+        }
+        
 
         private static void MergeHtmlAttributes(this TagBuilder tagBuilder, object htmlAttributes)
         {
