@@ -21,6 +21,10 @@ namespace GDSHelpers.Models.FormSchema
         public IEnumerable<QuestionVM> Questions { get; set; }
 
 
+        [JsonProperty("post_amble")]
+        public string PostAmble { get; set; }
+
+
         [JsonProperty("buttons")]
         public IEnumerable<ButtonVM> Buttons { get; set; }
 
