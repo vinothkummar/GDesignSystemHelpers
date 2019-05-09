@@ -80,6 +80,9 @@ namespace GDSHelpers
             var showWhen = CreateShowWhenAttributes(question);
             var showWhenCss = string.IsNullOrEmpty(showWhen) ? "" : "gds-display-none";
 
+            var ariaDescribedBy = $"aria-describedby=\"{elementId}-hint\"";
+            if (string.IsNullOrEmpty(question.AdditionalText)) ariaDescribedBy = "";
+
             var questionId = $"id=\"q{elementId}\"";
 
             var sb = new StringBuilder();
@@ -96,7 +99,7 @@ namespace GDSHelpers
             if (isErrored)
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
 
-            sb.AppendLine($"<input class=\"govuk-input {erroredInputCss}\" id=\"{elementId}\" name=\"{elementId}\" type=\"{question.DataType}\" aria-describedby=\"{elementId}-hint\" value=\"{question.Answer}\">");
+            sb.AppendLine($"<input class=\"govuk-input {erroredInputCss}\" id=\"{elementId}\" name=\"{elementId}\" type=\"{question.DataType}\" {ariaDescribedBy} value=\"{question.Answer}\">");
 
             sb.AppendLine("</div>");
 
@@ -120,6 +123,10 @@ namespace GDSHelpers
 
             var showWhen = CreateShowWhenAttributes(question);
             var showWhenCss = string.IsNullOrEmpty(showWhen) ? "" : "gds-display-none";
+
+            var ariaDescribedBy = $"aria-describedby=\"{elementId}-hint\"";
+            if (string.IsNullOrEmpty(question.AdditionalText)) ariaDescribedBy = "";
+
 
             var sb = new StringBuilder();
 
@@ -145,7 +152,7 @@ namespace GDSHelpers
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
 
             sb.AppendLine($"<textarea class=\"govuk-textarea {erroredInputCss} {counterCss}\" id=\"{elementId}\" " +
-                      $"name=\"{elementId}\" rows=\"5\" aria-describedby=\"{elementId}-hint\">{question.Answer}</textarea>");
+                      $"name=\"{elementId}\" rows=\"5\" {ariaDescribedBy}>{question.Answer}</textarea>");
 
             sb.AppendLine("</div>");
 
@@ -168,18 +175,24 @@ namespace GDSHelpers
             var questionId = $"id=\"q{elementId}\"";
             var lblId = $"q{elementId}-label";
 
+            var ariaDescribedBy = $"aria-describedby=\"{lblId}\"";
+            if (string.IsNullOrEmpty(question.Question)) ariaDescribedBy = "";
+
             var sb = new StringBuilder();
 
             var showWhen = CreateShowWhenAttributes(question);
             var showWhenCss = string.IsNullOrEmpty(showWhen) ? "" : "gds-display-none";
 
             sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss} {showWhenCss}\" {showWhen}>");
-            sb.AppendLine($"<fieldset class=\"govuk-fieldset\" aria-describedby=\"{lblId}\">");
+            sb.AppendLine($"<fieldset class=\"govuk-fieldset\" {ariaDescribedBy}>");
 
-            sb.AppendLine("<legend class=\"govuk-fieldset__legend govuk-fieldset__legend--xl\">");
-            sb.AppendLine($"<label id=\"{lblId}\" class=\"govuk-label gds-question\">{question.Question}</label>");
-            sb.AppendLine("</legend>");
-
+            if (!string.IsNullOrEmpty(question.Question))
+            {
+                sb.AppendLine("<legend class=\"govuk-fieldset__legend govuk-fieldset__legend--xl\">");
+                sb.AppendLine($"<label id=\"{lblId}\" class=\"govuk-label gds-question\">{question.Question}</label>");
+                sb.AppendLine("</legend>");
+            }
+            
             if (!string.IsNullOrEmpty(question.AdditionalText))
                 sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint gds-hint\">{question.AdditionalText}</span>");
 
@@ -216,13 +229,10 @@ namespace GDSHelpers
 
             sb.AppendLine("</div>");
 
-
-
             sb.AppendLine("</fieldset>");
             sb.AppendLine("</div>");
 
             return new HtmlString(sb.ToString());
-
         }
 
         private static IHtmlContent BuildSelectList(QuestionVM question)
@@ -277,6 +287,10 @@ namespace GDSHelpers
             var errorMsg = question.Validation?.ErrorMessage;
             var erroredCss = isErrored ? "govuk-form-group--error" : "";
             var questionId = $"id=\"q{elementId}\"";
+            var lblId = $"q{elementId}-label";
+
+            var ariaDescribedBy = $"aria-describedby=\"{lblId}\"";
+            if (string.IsNullOrEmpty(question.Question)) ariaDescribedBy = "";
 
             var sb = new StringBuilder();
 
@@ -284,11 +298,14 @@ namespace GDSHelpers
             var showWhenCss = string.IsNullOrEmpty(showWhen) ? "" : "gds-display-none";
 
             sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss} {showWhenCss}\" {showWhen}>");
-            sb.AppendLine("<fieldset class=\"govuk-fieldset\" aria-describedby=\"changed-name-hint\">");
+            sb.AppendLine($"<fieldset class=\"govuk-fieldset\" {ariaDescribedBy}>");
 
-            sb.AppendLine("<legend class=\"govuk-fieldset__legend govuk-fieldset__legend--xl\">");
-            sb.AppendLine($"<label class=\"govuk-label gds-question\">{question.Question}</label>");
-            sb.AppendLine("</legend>");
+            if (!string.IsNullOrEmpty(question.Question))
+            {
+                sb.AppendLine("<legend class=\"govuk-fieldset__legend govuk-fieldset__legend--xl\">");
+                sb.AppendLine($"<label id=\"{lblId}\" class=\"govuk-label gds-question\">{question.Question}</label>");
+                sb.AppendLine("</legend>");
+            }
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
                 sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint gds-hint\">{question.AdditionalText}</span>");
