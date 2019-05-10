@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+using System.Text.Encodings.Web;
 
 namespace GDSHelpers.TagHelpers
 {
@@ -27,7 +29,7 @@ namespace GDSHelpers.TagHelpers
             var cssClass = GdsEnums.GetCssClassFromEnum(HeadingType);
 
             output.TagName = tag;
-            output.Attributes.SetAttribute("class", cssClass);
+            output.AddClass(cssClass, HtmlEncoder.Default);
 
             if (!string.IsNullOrEmpty(Caption))
             {
