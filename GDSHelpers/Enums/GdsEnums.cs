@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace GDSHelpers
 {
-    public class GdsEnums
+    public partial class GdsEnums
     {
         public enum CountTypes
         {

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.Encodings.Web;
-using GDSHelpers.Models;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
@@ -61,7 +59,7 @@ namespace GDSHelpers
 
 
 
-        public void WriteTextBox(TextWriter writer)
+        public void WriteTextBox(TextWriter writer, string AutoComplete , string Spellcheck)
         {
             var tagBuilder = HtmlGenerator.GenerateTextBox(
                 ViewContext,
@@ -69,13 +67,24 @@ namespace GDSHelpers
                 For.Name,
                 For.Model,
                 null,
-                new { @class = "govuk-input" });
+         // new {  attributes }); 
+         // new { @class = "govuk-input" , autocomplete = "sample1", spellcheck = "false" });
+         //  new { @class = "govuk-input" });
+         null);
+
+            tagBuilder.Attributes.Add("class", "govuk-input");
+            if (!string.IsNullOrEmpty(AutoComplete))
+                tagBuilder.Attributes.Add("autocomplete", AutoComplete);
+            if(!string.IsNullOrEmpty(Spellcheck ))
+                tagBuilder.Attributes.Add("spellcheck", Spellcheck);
 
             if (!string.IsNullOrEmpty(For.Metadata.Description))
                 tagBuilder.MergeAttribute("aria-describedby", For.GenerateHintId());
 
             tagBuilder.WriteTo(writer, HtmlEncoder);
         }
+
+
 
         public void WriteTextArea(TextWriter writer, bool addCounter = false)
         {
