@@ -33,6 +33,10 @@ namespace GDSHelpers.Models.FormSchema
         public string NextPageId { get; set; }
 
 
+        [JsonProperty("previous_pages")]
+        public IEnumerable<PreviousPageVM> PreviousPages { get; set; }
+
+
         [JsonProperty("previous_page_id")]
         public string PreviousPageId { get; set; }
 
