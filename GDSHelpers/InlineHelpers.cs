@@ -8,6 +8,7 @@ namespace GDSHelpers
 {
     public static class InlineHelpers
     {
+
         /// <summary>
         /// Creates a GDS compliant Question with label, help text and error messages
         /// </summary>
