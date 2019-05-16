@@ -22,9 +22,7 @@ namespace GDSHelpers
             MiddleName,
             [Description("family-name")]
             FamilyName,
-            [Description("previous-name")]
-            PreviousName,
-            [Description("nickname")]
+           [Description("nickname")]
             NickName,
             [Description("username")]
             UserName,
@@ -52,4 +50,3 @@ namespace GDSHelpers
     }
 }
 
-//http://www.blackwasp.co.uk/enumdescription.aspx
