@@ -29,7 +29,7 @@ namespace GDSHelpers.TagHelpers
         public Autocomplete AutoComplete { get; set; }
 
         [HtmlAttributeName("spellcheck")]
-        public AddionalOptions Spellcheck { get; set; }
+        public AdditionalOptions Spellcheck { get; set; }
 
         [HtmlAttributeName("pattern")]
         public TextPattern Pattern { get; set; }
@@ -38,7 +38,7 @@ namespace GDSHelpers.TagHelpers
         public string Title { get; set; }
 
         [HtmlAttributeName("required")]
-        public AddionalOptions Required { get; set; }
+        public AdditionalOptions Required { get; set; }
 
         [HtmlAttributeName("text-transform")]
         public TextTransform TextTransform { get; set; }

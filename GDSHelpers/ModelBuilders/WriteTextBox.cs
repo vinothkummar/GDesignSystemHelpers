@@ -11,13 +11,13 @@ namespace GDSHelpers
     {
         public Autocomplete AutoComplete { get; set; }
 
-        public AddionalOptions Spellcheck { get; set; }
+        public AdditionalOptions Spellcheck { get; set; }
 
         public TextPattern Pattern { get; set; }
 
         public string Title { get; set; }
 
-        public AddionalOptions Required { get; set; }
+        public AdditionalOptions Required { get; set; }
 
         public TextTransform TextTransform { get; set; }
 
@@ -37,13 +37,13 @@ namespace GDSHelpers
 
             if (this.AutoComplete != Autocomplete.Null)
                 tagBuilder.Attributes.Add("autocomplete", GetCssClassFromEnum(this.AutoComplete));
-            if (this.Spellcheck != AddionalOptions.None)
+            if (this.Spellcheck != AdditionalOptions.None)
                 tagBuilder.Attributes.Add("spellcheck", GetCssClassFromEnum(this.Spellcheck));
             if (Pattern != TextPattern.None)
                 tagBuilder.Attributes.Add("pattern", GetCssClassFromEnum(Pattern));
             if (!string.IsNullOrEmpty(Title))
                 tagBuilder.Attributes.Add("title", Title);
-            if (!(Required == AddionalOptions.None || Required == AddionalOptions.False))
+            if (!(Required == AdditionalOptions.None || Required == AdditionalOptions.False))
                 tagBuilder.Attributes.Add("required", GetCssClassFromEnum(Required));
 
             if (!string.IsNullOrEmpty(For.Metadata.Description))

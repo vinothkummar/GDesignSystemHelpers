@@ -4,7 +4,7 @@ namespace GDSHelpers
 {
     public partial class GdsEnums
     {
-        public enum AddionalOptions
+        public enum AdditionalOptions
         {
             [Description("No option")]
             None,
