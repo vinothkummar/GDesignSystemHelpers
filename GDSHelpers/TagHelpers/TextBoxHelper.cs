@@ -14,6 +14,7 @@ namespace GDSHelpers.TagHelpers
     {
         private readonly IHtmlGenerator _htmlGenerator;
         private readonly HtmlEncoder _htmlEncoder;
+
         public TextBoxHelper(IHtmlGenerator htmlGenerator, HtmlEncoder htmlEncoder)
         {
             _htmlGenerator = htmlGenerator;
@@ -91,5 +92,3 @@ namespace GDSHelpers.TagHelpers
         
     }
 }
-
-

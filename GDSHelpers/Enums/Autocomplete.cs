@@ -22,7 +22,7 @@ namespace GDSHelpers
             MiddleName,
             [Description("family-name")]
             FamilyName,
-           [Description("nickname")]
+            [Description("nickname")]
             NickName,
             [Description("username")]
             UserName,
