@@ -11,8 +11,6 @@ namespace GDSHelpers
 
         public string TextBoxId { get; set; }
 
-        public string Title { get; set; }
-
         public TextTransform TextTransform { get; set; }
 
         public void WriteTextBox(TextWriter writer  )
@@ -31,8 +29,6 @@ namespace GDSHelpers
                 tagBuilder.MergeAttribute("autocomplete", GetCssClassFromEnum(this.AutoComplete));
             if (Spellcheck != AdditionalOptions.None)
                 tagBuilder.MergeAttribute("spellcheck", GetCssClassFromEnum(this.Spellcheck));
-            if (!string.IsNullOrEmpty(Title))
-                tagBuilder.MergeAttribute("title", Title);
             if (!string.IsNullOrEmpty(For.Name))
                 tagBuilder.MergeAttribute("aria-describedby", For.Name);
             if (!string.IsNullOrEmpty(TextBoxId))

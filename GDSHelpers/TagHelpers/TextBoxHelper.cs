@@ -31,9 +31,6 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("spellcheck")]
         public AdditionalOptions Spellcheck { get; set; }
 
-        [HtmlAttributeName("title")]
-        public string Title { get; set; }
-
         [HtmlAttributeName("text-transform")]
         public TextTransform TextTransform { get; set; }
 
@@ -71,10 +68,10 @@ namespace GDSHelpers.TagHelpers
                     modelBuilder.WriteHint(writer);
 
                 modelBuilder.WriteValidation(writer);
+
                 modelBuilder.TextBoxId = TextBoxId;
                 modelBuilder.AutoComplete = AutoComplete;
                 modelBuilder.Spellcheck = Spellcheck;
-                modelBuilder.Title = Title;
                 modelBuilder.TextTransform = TextTransform;
                 modelBuilder.WriteTextBox(writer);
                
