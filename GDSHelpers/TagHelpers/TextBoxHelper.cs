@@ -31,14 +31,8 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("spellcheck")]
         public AdditionalOptions Spellcheck { get; set; }
 
-        [HtmlAttributeName("pattern")]
-        public TextPattern Pattern { get; set; }
-
         [HtmlAttributeName("title")]
         public string Title { get; set; }
-
-        [HtmlAttributeName("required")]
-        public AdditionalOptions Required { get; set; }
 
         [HtmlAttributeName("text-transform")]
         public TextTransform TextTransform { get; set; }
@@ -76,15 +70,14 @@ namespace GDSHelpers.TagHelpers
                 if (!string.IsNullOrEmpty(For.Metadata.Description))
                     modelBuilder.WriteHint(writer);
 
+                modelBuilder.WriteValidation(writer);
+                modelBuilder.TextBoxId = TextBoxId;
                 modelBuilder.AutoComplete = AutoComplete;
                 modelBuilder.Spellcheck = Spellcheck;
-                modelBuilder.Pattern = Pattern;
                 modelBuilder.Title = Title;
-                modelBuilder.Required = Required;
                 modelBuilder.TextTransform = TextTransform;
                 modelBuilder.WriteTextBox(writer);
-
-                modelBuilder.WriteValidation(writer);
+               
                 output.Content.SetHtmlContent(writer.ToString());
             }
 

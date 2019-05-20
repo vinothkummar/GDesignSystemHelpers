@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿using System.IO;
 using static GDSHelpers.GdsEnums;
 
 namespace GDSHelpers
@@ -13,15 +9,11 @@ namespace GDSHelpers
 
         public AdditionalOptions Spellcheck { get; set; }
 
-        public TextPattern Pattern { get; set; }
+        public string TextBoxId { get; set; }
 
         public string Title { get; set; }
 
-        public AdditionalOptions Required { get; set; }
-
         public TextTransform TextTransform { get; set; }
-
-
 
         public void WriteTextBox(TextWriter writer  )
         {
@@ -36,18 +28,15 @@ namespace GDSHelpers
 
 
             if (this.AutoComplete != Autocomplete.Null)
-                tagBuilder.Attributes.Add("autocomplete", GetCssClassFromEnum(this.AutoComplete));
-            if (this.Spellcheck != AdditionalOptions.None)
-                tagBuilder.Attributes.Add("spellcheck", GetCssClassFromEnum(this.Spellcheck));
-            if (Pattern != TextPattern.None)
-                tagBuilder.Attributes.Add("pattern", GetCssClassFromEnum(Pattern));
+                tagBuilder.MergeAttribute("autocomplete", GetCssClassFromEnum(this.AutoComplete));
+            if (Spellcheck != AdditionalOptions.None)
+                tagBuilder.MergeAttribute("spellcheck", GetCssClassFromEnum(this.Spellcheck));
             if (!string.IsNullOrEmpty(Title))
-                tagBuilder.Attributes.Add("title", Title);
-            if (!(Required == AdditionalOptions.None || Required == AdditionalOptions.False))
-                tagBuilder.Attributes.Add("required", GetCssClassFromEnum(Required));
-
-            if (!string.IsNullOrEmpty(For.Metadata.Description))
-                tagBuilder.MergeAttribute("aria-describedby", For.GenerateHintId());
+                tagBuilder.MergeAttribute("title", Title);
+            if (!string.IsNullOrEmpty(For.Name))
+                tagBuilder.MergeAttribute("aria-describedby", For.Name);
+            if (!string.IsNullOrEmpty(TextBoxId))
+                tagBuilder.MergeAttribute("aria-labelledby", TextBoxId);
 
             tagBuilder.WriteTo(writer, HtmlEncoder);
         }
