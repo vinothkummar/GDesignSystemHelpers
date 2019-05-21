@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.Encodings.Web;
-using GDSHelpers.Models;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace GDSHelpers
 {
-    public class ModelBuilder
+    public partial class ModelBuilder
     {
         public IHtmlGenerator HtmlGenerator { get; set; }
         public HtmlEncoder HtmlEncoder { get; set; }
@@ -17,7 +15,7 @@ namespace GDSHelpers
 
 
 
-
+        #region Label
         public void WriteLabel(TextWriter writer)
         {
             var tagBuilder = HtmlGenerator.GenerateLabel(
@@ -28,6 +26,8 @@ namespace GDSHelpers
                 new { @class = "govuk-label" });
             tagBuilder.WriteTo(writer, HtmlEncoder);
         }
+        #endregion
+        #region WriteHint
         public void WriteHint(TextWriter writer)
         {
             var lbl = new TagBuilder("span");
@@ -58,25 +58,13 @@ namespace GDSHelpers
             lbl.WriteTo(writer, HtmlEncoder);
         }
 
+        #endregion
 
 
+   
 
-        public void WriteTextBox(TextWriter writer)
-        {
-            var tagBuilder = HtmlGenerator.GenerateTextBox(
-                ViewContext,
-                For.ModelExplorer,
-                For.Name,
-                For.Model,
-                null,
-                new { @class = "govuk-input" });
 
-            if (!string.IsNullOrEmpty(For.Metadata.Description))
-                tagBuilder.MergeAttribute("aria-describedby", For.GenerateHintId());
-
-            tagBuilder.WriteTo(writer, HtmlEncoder);
-        }
-
+        #region WriteTextArea
         public void WriteTextArea(TextWriter writer, bool addCounter = false)
         {
             var counterCss = addCounter ? " js-character-count" : "";
@@ -94,7 +82,9 @@ namespace GDSHelpers
             
             tagBuilder.WriteTo(writer, HtmlEncoder);
         }
+        #endregion
 
+        #region WriteSelect
         public void WriteSelect(TextWriter writer, List<SelectListItem> listItems, string optionLabel)
         {
             var tagBuilder = HtmlGenerator.GenerateSelect(
@@ -111,6 +101,6 @@ namespace GDSHelpers
 
             tagBuilder.WriteTo(writer, HtmlEncoder);
         }
-
+        #endregion
     }
 }

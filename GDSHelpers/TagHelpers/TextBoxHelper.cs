@@ -3,6 +3,8 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+using static GDSHelpers.GdsEnums;
 
 namespace GDSHelpers.TagHelpers
 {
@@ -12,7 +14,7 @@ namespace GDSHelpers.TagHelpers
     {
         private readonly IHtmlGenerator _htmlGenerator;
         private readonly HtmlEncoder _htmlEncoder;
-        
+
         public TextBoxHelper(IHtmlGenerator htmlGenerator, HtmlEncoder htmlEncoder)
         {
             _htmlGenerator = htmlGenerator;
@@ -21,6 +23,16 @@ namespace GDSHelpers.TagHelpers
 
         [HtmlAttributeName("textbox-id")]
         public string TextBoxId { get; set; }
+
+  
+        [HtmlAttributeName("autocomplete")]
+        public Autocomplete AutoComplete { get; set; }
+
+        [HtmlAttributeName("spellcheck")]
+        public AdditionalOptions Spellcheck { get; set; }
+
+        [HtmlAttributeName("text-transform")]
+        public TextTransform TextTransform { get; set; }
 
         [HtmlAttributeName("for")]
         public ModelExpression For { get; set; }
@@ -55,8 +67,14 @@ namespace GDSHelpers.TagHelpers
                 if (!string.IsNullOrEmpty(For.Metadata.Description))
                     modelBuilder.WriteHint(writer);
 
-                modelBuilder.WriteTextBox(writer);
                 modelBuilder.WriteValidation(writer);
+
+                modelBuilder.TextBoxId = TextBoxId;
+                modelBuilder.AutoComplete = AutoComplete;
+                modelBuilder.Spellcheck = Spellcheck;
+                modelBuilder.TextTransform = TextTransform;
+                modelBuilder.WriteTextBox(writer);
+               
                 output.Content.SetHtmlContent(writer.ToString());
             }
 
