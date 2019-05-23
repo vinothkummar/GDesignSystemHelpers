@@ -15,7 +15,7 @@ namespace GDSHelpers.TagHelpers
         {
             output.TagName = "div";
             output.AddClass("govuk-form-group", HtmlEncoder.Default);
-            if (!IsError)
+            if (IsError)
                 output.AddClass("govuk-form-group--error", HtmlEncoder.Default);
             var children = await output.GetChildContentAsync();
             output.Content.SetHtmlContent(children);
