@@ -8,6 +8,8 @@ namespace GDSHelpers.Models.FormSchema
         [JsonProperty("question_id")]
         public string QuestionId { get; set; }
 
+        [JsonProperty("document_order")]
+        public int? DocumentOrder { get; set; }
 
         [JsonProperty("question")]
         public string Question { get; set; }
