@@ -9,7 +9,7 @@ namespace GDSHelpers.Models.FormSchema
         public string QuestionId { get; set; }
 
         [JsonProperty("document_order")]
-        public string DocumentOrder { get; set; }
+        public int? DocumentOrder { get; set; }
 
         [JsonProperty("question")]
         public string Question { get; set; }
