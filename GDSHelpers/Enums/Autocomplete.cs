@@ -45,7 +45,15 @@ namespace GDSHelpers
             [Description("postal-code")]
             PostalCode,
             [Description("email")]
-            Email
+            Email,
+            [Description("tel")]
+            Telephone,
+            [Description("photo")]
+            Photo,
+            [Description("url")]
+            Url,
+            [Description("sex")]
+            Sex
         }
     }
 }
