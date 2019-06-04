@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 
 namespace GDSHelpers.TagHelpers
 {
@@ -28,13 +30,19 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("start-now")]
         public bool StartNow { get; set; }
 
+        [HtmlAttributeName("secondary")]
+        public bool Secondary { get; set; }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "button ";
+            output.TagName = "button";
 
-            var btnClass = StartNow ? "govuk-button govuk-button--start" : "govuk-button";
             output.Attributes.SetAttribute("id", string.IsNullOrEmpty(ButtonId) ? "" : ButtonId);
-            output.Attributes.SetAttribute("class", btnClass);
+            output.AddClass("govuk-button", HtmlEncoder.Default);
+            if (StartNow)
+                output.AddClass("govuk-button--start", HtmlEncoder.Default);
+            if (Secondary)
+                output.AddClass("govuk-button--secondary", HtmlEncoder.Default);
 
             output.Attributes.SetAttribute("type", ButtonType.ToString().ToLower());
 
