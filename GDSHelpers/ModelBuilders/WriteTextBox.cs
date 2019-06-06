@@ -12,7 +12,7 @@ namespace GDSHelpers
         public string TextBoxId { get; set; }
 
         public TextTransform TextTransform { get; set; }
-
+        public string TextBoxWidthChars {get; set;}
         public void WriteTextBox(TextWriter writer  )
         {
             var tagBuilder = HtmlGenerator.GenerateTextBox(
@@ -21,10 +21,11 @@ namespace GDSHelpers
                 For.Name,
                 For.Model,
                 null,
-                new { @class = string.Format( "govuk-input {0}", 
-                            TextTransform == TextTransform.None ? "" : GetCssClassFromEnum(TextTransform)) });
-
-
+                new { @class = string.Format("govuk-input {0} {1}", 
+                            TextTransform == TextTransform.None ? "" : GetCssClassFromEnum(TextTransform),
+                            string.IsNullOrWhiteSpace(TextBoxWidthChars) ? "" : $"govuk-input--width-{TextBoxWidthChars}")
+                    });
+            
             if (this.AutoComplete != Autocomplete.Null)
                 tagBuilder.MergeAttribute("autocomplete", GetCssClassFromEnum(this.AutoComplete));
             if (Spellcheck != AdditionalOptions.None)
