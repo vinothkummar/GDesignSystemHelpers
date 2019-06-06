@@ -34,8 +34,8 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("text-transform")]
         public TextTransform TextTransform { get; set; }
 
-        [HtmlAttributeName("textbox-width")]
-        public InputWidth TextBoxWidth {get; set;}
+        [HtmlAttributeName("textbox-width-chars")]
+        public string InputWidthChars { get; set;}
 
         [HtmlAttributeName("for")]
         public ModelExpression For { get; set; }
@@ -76,7 +76,7 @@ namespace GDSHelpers.TagHelpers
                 modelBuilder.AutoComplete = AutoComplete;
                 modelBuilder.Spellcheck = Spellcheck;
                 modelBuilder.TextTransform = TextTransform;
-                modelBuilder.TextBoxWidth = TextBoxWidth;
+                modelBuilder.TextBoxWidthChars = InputWidthChars;
                 modelBuilder.WriteTextBox(writer);
                
                 output.Content.SetHtmlContent(writer.ToString());

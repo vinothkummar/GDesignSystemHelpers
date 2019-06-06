@@ -12,7 +12,7 @@ namespace GDSHelpers
         public string TextBoxId { get; set; }
 
         public TextTransform TextTransform { get; set; }
-        public InputWidth TextBoxWidth {get; set;}
+        public string TextBoxWidthChars {get; set;}
         public void WriteTextBox(TextWriter writer  )
         {
             var tagBuilder = HtmlGenerator.GenerateTextBox(
@@ -23,7 +23,7 @@ namespace GDSHelpers
                 null,
                 new { @class = string.Format("govuk-input {0} {1}", 
                             TextTransform == TextTransform.None ? "" : GetCssClassFromEnum(TextTransform),
-                            TextBoxWidth == InputWidth.None ? "" : GetCssClassFromEnum(TextBoxWidth))
+                            string.IsNullOrWhiteSpace(TextBoxWidthChars) ? "" : $"govuk-input--width-{TextBoxWidthChars}")
                     });
             
             if (this.AutoComplete != Autocomplete.Null)
