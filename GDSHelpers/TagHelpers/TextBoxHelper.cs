@@ -34,7 +34,7 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("text-transform")]
         public TextTransform TextTransform { get; set; }
 
-        [HtmlAttributeName("textbox-width-chars")]
+        [HtmlAttributeName("input-width-chars")]
         public string InputWidthChars { get; set;}
 
         [HtmlAttributeName("for")]
