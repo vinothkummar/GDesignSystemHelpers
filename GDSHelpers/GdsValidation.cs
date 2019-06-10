@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Ganss.XSS;
 using GDSHelpers.Models.FormSchema;
 using Microsoft.AspNetCore.Http;
 
@@ -14,6 +15,7 @@ namespace GDSHelpers
         /// <returns>A validated PageVM object with error flags and messages marked against each question.</returns>
         PageVM ValidatePage(PageVM pageVm, IFormCollection requestForm);
 
+        string CleanText(string answer);
     }
 
     public class GdsValidation : IGdsValidation
@@ -23,7 +25,7 @@ namespace GDSHelpers
             foreach (var question in pageVm.Questions)
             {
                 //Get the answer
-                var answer = requestForm[question.QuestionId].ToString();
+                var answer = CleanText(requestForm[question.QuestionId].ToString());
                 question.Answer = answer;
 
                 //Set the next page id if our answer matches a rule
@@ -40,7 +42,13 @@ namespace GDSHelpers
 
 
                 //Check length
-                if (question.Validation?.MaxLength?.Max < answer?.Length)
+                if (question.Validation?.MinLength?.Min > answer.Length)
+                {
+                    question.Validation.IsErrored = true;
+                    question.Validation.ErrorMessage = question.Validation.MinLength.ErrorMessage;
+                }
+
+                if (question.Validation?.MaxLength?.Max < answer.Length)
                 {
                     question.Validation.IsErrored = true;
                     question.Validation.ErrorMessage = question.Validation.MaxLength.ErrorMessage;
@@ -60,6 +68,18 @@ namespace GDSHelpers
             }
 
             return pageVm;
+        }
+
+
+        public string CleanText(string answer)
+        {
+            var htmlSanitizer = new HtmlSanitizer();
+            answer = htmlSanitizer.Sanitize(answer);
+
+            var dirtyWords = new [] { "javascript" };
+            answer = dirtyWords.Aggregate(answer, (current, word) => current.Replace(word, ""));
+
+            return answer;
         }
 
     }

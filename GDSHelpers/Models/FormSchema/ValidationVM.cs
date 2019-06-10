@@ -8,6 +8,10 @@ namespace GDSHelpers.Models.FormSchema
         public RequiredVM Required { get; set; }
 
 
+        [JsonProperty("min_length")]
+        public MinLengthVM MinLength { get; set; }
+
+
         [JsonProperty("max_length")]
         public MaxLengthVM MaxLength { get; set; }
 
