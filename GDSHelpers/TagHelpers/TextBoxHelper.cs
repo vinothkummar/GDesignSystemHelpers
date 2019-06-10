@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
@@ -53,7 +54,7 @@ namespace GDSHelpers.TagHelpers
 
             ViewContext.ViewData.ModelState.TryGetValue(For.Name, out var entry);
             var cssClass = entry?.Errors?.Count > 0 ? "govuk-form-group govuk-form-group--error" : "govuk-form-group";
-            output.Attributes.Add("class", cssClass);
+            output.AddClass(cssClass, HtmlEncoder.Default);
 
             var modelBuilder = new ModelBuilder
             {
