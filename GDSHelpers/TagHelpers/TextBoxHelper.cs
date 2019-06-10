@@ -39,7 +39,7 @@ namespace GDSHelpers.TagHelpers
 
             ViewContext.ViewData.ModelState.TryGetValue(For.Name, out var entry);
             var cssClass = entry?.Errors?.Count > 0 ? "govuk-form-group govuk-form-group--error" : "govuk-form-group";
-            output.AddClass(cssClass,HtmlEncoder.Default);
+            output.AddClass(cssClass, HtmlEncoder.Default);
 
             var modelBuilder = new ModelBuilder
             {
