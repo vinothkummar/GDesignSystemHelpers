@@ -38,8 +38,12 @@ namespace GDSHelpers.TagHelpers
             output.Attributes.SetAttribute("id", string.IsNullOrEmpty(TextBoxId) ? "" : TextBoxId);
 
             ViewContext.ViewData.ModelState.TryGetValue(For.Name, out var entry);
-            var cssClass = entry?.Errors?.Count > 0 ? "govuk-form-group govuk-form-group--error" : "govuk-form-group";
-            output.AddClass(cssClass, HtmlEncoder.Default);
+
+            output.AddClass("govuk-form-group", HtmlEncoder.Default);
+            if (entry?.Errors?.Count > 0)
+            {
+                output.AddClass("govuk-form-group--error", HtmlEncoder.Default);
+            }
 
             var modelBuilder = new ModelBuilder
             {
