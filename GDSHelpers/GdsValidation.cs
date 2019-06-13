@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Ganss.XSS;
 using GDSHelpers.Models.FormSchema;
 using Microsoft.AspNetCore.Http;
@@ -12,20 +13,33 @@ namespace GDSHelpers
         /// </summary>
         /// <param name="pageVm">A PageVM object containing the current page.</param>
         /// <param name="requestForm">The Request.Form object after postback of the current page.</param>
+        /// <param name="stripHtml">Do you want to remove HTML from the answer (true / false)</param>
+        /// <param name="restrictedWords">A list of restricted words i.e. new List<string> { "javascript", "onclick" } </param>
+        /// <param name="allowedChars">A hashset of whitelisted chars i.e. new HashSet<char>(@"abcdefg");</param>
         /// <returns>A validated PageVM object with error flags and messages marked against each question.</returns>
-        PageVM ValidatePage(PageVM pageVm, IFormCollection requestForm);
+        PageVM ValidatePage(PageVM pageVm, IFormCollection requestForm,
+            bool stripHtml = false, List<string> restrictedWords = null, HashSet<char> allowedChars = null);
 
-        string CleanText(string answer);
+        /// <summary>
+        /// Cleans any text of dangerous input, i.e.<script></script> or onclick="".
+        /// </summary>
+        /// <param name="answer"></param>
+        /// <param name="stripHtml">Do you want to remove HTML from the answer (true / false)</param>
+        /// <param name="restrictedWords">A list of restricted words i.e. new List<string> { "javascript", "onclick" } </param>
+        /// <param name="allowedChars">A hashset of whitelisted chars i.e. new HashSet<char>(@"abcdefg");</param>
+        /// <returns>Returns a cleaned string or empty string if dangerous input found.</returns>
+        string CleanText(string answer, bool stripHtml = false, List<string> restrictedWords = null, HashSet<char> allowedChars = null);
     }
 
     public class GdsValidation : IGdsValidation
     {
-        public PageVM ValidatePage(PageVM pageVm, IFormCollection requestForm)
+        public PageVM ValidatePage(PageVM pageVm, IFormCollection requestForm, 
+            bool stripHtml = false, List<string> restrictedWords = null, HashSet<char> allowedChars = null)
         {
             foreach (var question in pageVm.Questions)
             {
                 //Get the answer
-                var answer = CleanText(requestForm[question.QuestionId].ToString());
+                var answer = CleanText(requestForm[question.QuestionId].ToString(), stripHtml, restrictedWords, allowedChars);
                 question.Answer = answer;
 
                 //Set the next page id if our answer matches a rule
@@ -70,14 +84,31 @@ namespace GDSHelpers
             return pageVm;
         }
 
-
-        public string CleanText(string answer)
+        
+        public string CleanText(string answer, bool stripHtml = false, 
+            List<string>restrictedWords = null, HashSet<char> allowedChars = null)
         {
-            var htmlSanitizer = new HtmlSanitizer();
-            answer = htmlSanitizer.Sanitize(answer);
+            //Strip out any Html
+            if (stripHtml)
+            {
+                var htmlSanitizer = new HtmlSanitizer();
+                answer = htmlSanitizer.Sanitize(answer);
+            }
 
-            var dirtyWords = new [] { "javascript" };
-            answer = dirtyWords.Aggregate(answer, (current, word) => current.Replace(word, ""));
+            //Check for non-allowed words
+            if (restrictedWords != null)
+            {
+                foreach (var word in restrictedWords)
+                {
+                    if (answer.Contains(word)) return "";
+                }
+            }
+
+            //Check for non-allowed chars
+            if (allowedChars != null)
+            {
+                answer = string.Concat(answer.Where(c => allowedChars.Contains(c)));
+            }
 
             return answer;
         }
