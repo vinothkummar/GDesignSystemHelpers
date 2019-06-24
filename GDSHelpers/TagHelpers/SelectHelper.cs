@@ -58,9 +58,9 @@ namespace GDSHelpers.TagHelpers
 
                 if (!string.IsNullOrEmpty(For.Metadata.Description))
                     modelBuilder.WriteHint(writer);
-
-                modelBuilder.WriteSelect(writer, ListItems, OptionLabel);
                 modelBuilder.WriteValidation(writer);
+                modelBuilder.WriteSelect(writer, ListItems, OptionLabel);
+              
 
                 output.Content.SetHtmlContent(writer.ToString());
             }
