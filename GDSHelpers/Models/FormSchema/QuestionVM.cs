@@ -31,6 +31,10 @@ namespace GDSHelpers.Models.FormSchema
         public string InputType { get; set; }
 
 
+        [JsonProperty("input_height")]
+        public string InputHeight { get; set; }
+
+
         [JsonProperty("options")]
         public IEnumerable<OptionVM> Options { get; set; }
 

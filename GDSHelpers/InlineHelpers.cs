@@ -118,6 +118,7 @@ namespace GDSHelpers
             var errorMsg = question.Validation?.ErrorMessage;
             var erroredCss = isErrored ? "govuk-form-group--error" : "";
             var erroredInputCss = isErrored ? "govuk-textarea--error" : "";
+            var inputHeight = string.IsNullOrEmpty(question.InputHeight) ? "5" : question.InputHeight;
 
             var questionId = $"id=\"q{elementId}\"";
 
@@ -152,7 +153,7 @@ namespace GDSHelpers
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
 
             sb.AppendLine($"<textarea class=\"govuk-textarea {erroredInputCss} {counterCss}\" id=\"{elementId}\" " +
-                      $"name=\"{elementId}\" rows=\"5\" {ariaDescribedBy}>{question.Answer}</textarea>");
+                      $"name=\"{elementId}\" rows=\"{inputHeight}\" {ariaDescribedBy}>{question.Answer}</textarea>");
 
             sb.AppendLine("</div>");
 
