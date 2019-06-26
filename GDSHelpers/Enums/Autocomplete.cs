@@ -32,6 +32,8 @@ namespace GDSHelpers
             CurrentPassword,
             [Description("organization")]
             Organization,
+            [Description("street-address")]
+            StreetAddress,
             [Description("address-line1")]
             AddressLine1,
             [Description("address-line2")]
@@ -44,6 +46,10 @@ namespace GDSHelpers
             CountryName,
             [Description("postal-code")]
             PostalCode,
+            [Description("address-level1")]
+            AddressLevel1,
+            [Description("address-level2")]
+            AddressLevel2,
             [Description("email")]
             Email,
             [Description("tel")]
