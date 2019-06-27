@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Ganss.XSS;
 using GDSHelpers.Models.FormSchema;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +30,17 @@ namespace GDSHelpers
         /// <param name="allowedChars">A hashset of whitelisted chars i.e. new HashSet<char>(@"abcdefg");</param>
         /// <returns>Returns a cleaned string or empty string if dangerous input found.</returns>
         string CleanText(string answer, bool stripHtml = false, List<string> restrictedWords = null, HashSet<char> allowedChars = null);
+
+        /// <summary>
+        /// Returns a count of the number of words in a string
+        /// </summary>
+        /// <param name="text">The string to word count</param>
+        /// <returns>Returns an int value of the number of words</returns>
+        int WordCount(string text);
+
     }
+
+
 
     public class GdsValidation : IGdsValidation
     {
@@ -56,13 +67,16 @@ namespace GDSHelpers
 
 
                 //Check length
-                if (question.Validation?.MinLength?.Min > answer.Length)
+                var lengthType = question.Validation?.MaxLength?.Type.ToLower();
+                var answerLength = lengthType == "words" ? WordCount(answer) : answer.Length;
+
+                if (question.Validation?.MinLength?.Min > answerLength)
                 {
                     question.Validation.IsErrored = true;
                     question.Validation.ErrorMessage = question.Validation.MinLength.ErrorMessage;
                 }
 
-                if (question.Validation?.MaxLength?.Max < answer.Length)
+                if (question.Validation?.MaxLength?.Max < answerLength)
                 {
                     question.Validation.IsErrored = true;
                     question.Validation.ErrorMessage = question.Validation.MaxLength.ErrorMessage;
@@ -111,6 +125,15 @@ namespace GDSHelpers
             }
 
             return answer;
+        }
+
+
+        public int WordCount(string text)
+        {
+            var regex = new Regex(@"\S+", RegexOptions.IgnoreCase);
+            var matches = regex.Matches(text);
+            var count = matches.Count;
+            return count;
         }
 
     }
