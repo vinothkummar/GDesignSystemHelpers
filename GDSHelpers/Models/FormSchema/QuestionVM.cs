@@ -15,6 +15,10 @@ namespace GDSHelpers.Models.FormSchema
         public string Question { get; set; }
 
 
+        [JsonProperty("short_question")]
+        public string ShortQuestion { get; set; }
+
+
         [JsonProperty("additional_text")]
         public string AdditionalText { get; set; }
 
@@ -33,6 +37,10 @@ namespace GDSHelpers.Models.FormSchema
 
         [JsonProperty("input_height")]
         public string InputHeight { get; set; }
+
+
+        [JsonProperty("list_direction")]
+        public string ListDirection { get; set; }
 
 
         [JsonProperty("options")]

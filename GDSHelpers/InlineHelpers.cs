@@ -175,6 +175,7 @@ namespace GDSHelpers
             var erroredCss = isErrored ? "govuk-form-group--error" : "";
             var questionId = $"id=\"q{elementId}\"";
             var lblId = $"q{elementId}-label";
+            var inlineCSS = question.ListDirection == "horizontal" ? "govuk-radios--inline" : "";
 
             var ariaDescribedBy = $"aria-describedby=\"{lblId}\"";
             if (string.IsNullOrEmpty(question.Question)) ariaDescribedBy = "";
@@ -205,7 +206,6 @@ namespace GDSHelpers
 
 
             var count = 0;
-            var inlineCSS = "";
             sb.AppendLine($"<div class=\"govuk-radios {inlineCSS}\">");
             
             foreach (var option in question.Options)
