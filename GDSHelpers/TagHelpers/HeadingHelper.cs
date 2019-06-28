@@ -26,7 +26,7 @@ namespace GDSHelpers.TagHelpers
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var tag = HeadingType.ToString().ToLower();
-            var cssClass = GdsEnums.GetCssClassFromEnum(HeadingType);
+            var cssClass = GdsEnums.GetDescriptionFromEnum(HeadingType);
 
             output.TagName = tag;
             output.AddClass(cssClass, HtmlEncoder.Default);

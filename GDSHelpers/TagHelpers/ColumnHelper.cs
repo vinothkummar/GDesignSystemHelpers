@@ -14,8 +14,8 @@ namespace GDSHelpers.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            var tabletClass = GdsEnums.GetCssClassFromEnum(TabletSize);
-            var desktopClass = GdsEnums.GetCssClassFromEnum(DesktopSize);
+            var tabletClass = GdsEnums.GetDescriptionFromEnum(TabletSize);
+            var desktopClass = GdsEnums.GetDescriptionFromEnum(DesktopSize);
 
             output.TagName = "div";
             output.Attributes.SetAttribute("class", $"{tabletClass} {desktopClass}");
