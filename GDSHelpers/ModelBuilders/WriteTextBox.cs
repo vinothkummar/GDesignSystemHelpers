@@ -22,14 +22,14 @@ namespace GDSHelpers
                 For.Model,
                 null,
                 new { @class = string.Format("govuk-input {0} {1}", 
-                            TextTransform == TextTransform.None ? "" : GetCssClassFromEnum(TextTransform),
+                            TextTransform == TextTransform.None ? "" : GetDescriptionFromEnum(TextTransform),
                             string.IsNullOrWhiteSpace(TextBoxWidthChars) ? "" : $"govuk-input--width-{TextBoxWidthChars}")
                     });
             
             if (this.AutoComplete != Autocomplete.Null)
-                tagBuilder.MergeAttribute("autocomplete", GetCssClassFromEnum(this.AutoComplete));
+                tagBuilder.MergeAttribute("autocomplete", GetDescriptionFromEnum(this.AutoComplete));
             if (Spellcheck != AdditionalOptions.None)
-                tagBuilder.MergeAttribute("spellcheck", GetCssClassFromEnum(this.Spellcheck));
+                tagBuilder.MergeAttribute("spellcheck", GetDescriptionFromEnum(this.Spellcheck));
             if (!string.IsNullOrEmpty(For.Name))
                 tagBuilder.MergeAttribute("aria-describedby", For.Name);
             if (!string.IsNullOrEmpty(TextBoxId))

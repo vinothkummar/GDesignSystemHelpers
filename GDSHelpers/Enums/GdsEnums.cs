@@ -106,7 +106,7 @@ namespace GDSHelpers
         }
 
 
-        public static string GetCssClassFromEnum(Enum value)
+        public static string GetDescriptionFromEnum(Enum value)
         {
             var fi = value.GetType().GetField(value.ToString());
             var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute),false);
