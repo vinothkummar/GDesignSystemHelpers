@@ -99,7 +99,7 @@ namespace GDSHelpers
             if (isErrored)
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
 
-            sb.AppendLine($"<input class=\"govuk-input {erroredInputCss}\" id=\"{elementId}\" name=\"{elementId}\" type=\"{question.DataType}\" {ariaDescribedBy} value=\"{question.Answer}\">");
+            sb.AppendLine($"<input class=\"govuk-input {erroredInputCss} {question.InputCss}\" id=\"{elementId}\" name=\"{elementId}\" type=\"{question.DataType}\" {ariaDescribedBy} value=\"{question.Answer}\">");
 
             sb.AppendLine("</div>");
 
