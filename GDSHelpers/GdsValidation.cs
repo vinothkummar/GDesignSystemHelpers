@@ -124,6 +124,8 @@ namespace GDSHelpers
                 answer = string.Concat(answer.Where(c => allowedChars.Contains(c)));
             }
 
+            //check for ampersand
+            answer = answer.Replace("&amp;", "&");
             return answer;
         }
 
