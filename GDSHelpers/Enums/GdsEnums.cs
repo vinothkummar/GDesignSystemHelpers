@@ -41,6 +41,9 @@ namespace GDSHelpers
 
         public enum DesktopColumns
         {
+            [Description("")]
+            None,
+
             [Description("govuk-grid-column-full-from-desktop")]
             FullWidth,
 
