@@ -39,6 +39,10 @@ namespace GDSHelpers.Models.FormSchema
         public string InputHeight { get; set; }
 
 
+        [JsonProperty("input_css")]
+        public string InputCss { get; set; }
+
+
         [JsonProperty("list_direction")]
         public string ListDirection { get; set; }
 
