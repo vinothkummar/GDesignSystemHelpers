@@ -20,6 +20,9 @@ namespace GDSHelpers
 
         public enum TabletColumns
         {
+            [Description("")]
+            None,
+
             [Description("govuk-grid-column-full")]
             FullWidth,
 
@@ -41,6 +44,9 @@ namespace GDSHelpers
 
         public enum DesktopColumns
         {
+            [Description("")]
+            None,
+
             [Description("govuk-grid-column-full-from-desktop")]
             FullWidth,
 
