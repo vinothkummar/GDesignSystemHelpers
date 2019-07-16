@@ -47,7 +47,7 @@ namespace GDSHelpers.TagHelpers
         {
             output.TagName = "div";
             output.TagMode = TagMode.StartTagAndEndTag;
-            output.Attributes.SetAttribute("id", string.IsNullOrEmpty(TextAreaId) ? "" : TextAreaId);
+            output.Attributes.SetAttribute("id", string.IsNullOrEmpty(TextAreaId) ? "" : TextAreaId+"div");
 
             ViewContext.ViewData.ModelState.TryGetValue(For.Name, out var entry);
             var cssClass = entry?.Errors?.Count > 0 ? "govuk-form-group govuk-form-group--error" : "govuk-form-group";
@@ -98,12 +98,14 @@ namespace GDSHelpers.TagHelpers
                 if (!string.IsNullOrEmpty(For.Metadata.Description))
                     modelBuilder.WriteHint(writer);
 
+                modelBuilder.WriteValidation(writer);
+
                 modelBuilder.WriteTextArea(writer, useCounter);
 
                 if (CountType != GdsEnums.CountTypes.None)
                     modelBuilder.WriteCountInfo(writer);
 
-                modelBuilder.WriteValidation(writer);
+               
 
                 output.Content.SetHtmlContent(writer.ToString());
             }
