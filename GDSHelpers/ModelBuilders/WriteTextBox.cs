@@ -10,6 +10,7 @@ namespace GDSHelpers
         public AdditionalOptions Spellcheck { get; set; }
 
         public string TextBoxId { get; set; }
+        public int MaxLength { get; set; }
 
         public TextTransform TextTransform { get; set; }
         public string TextBoxWidthChars {get; set;}
@@ -30,6 +31,8 @@ namespace GDSHelpers
                 tagBuilder.MergeAttribute("autocomplete", GetDescriptionFromEnum(this.AutoComplete));
             if (Spellcheck != AdditionalOptions.None)
                 tagBuilder.MergeAttribute("spellcheck", GetDescriptionFromEnum(this.Spellcheck));
+            if (MaxLength != 0)
+                tagBuilder.MergeAttribute("maxlength", this.MaxLength.ToString());
             if (!string.IsNullOrEmpty(For.Name))
                 tagBuilder.MergeAttribute("aria-describedby", For.Name);
             if (!string.IsNullOrEmpty(TextBoxId))
