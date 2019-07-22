@@ -20,14 +20,30 @@ namespace GDSHelpers.TagHelpers
             var sb = new StringBuilder();
             sb.AppendLine("<ol class=\"govuk-breadcrumbs__list\">");
 
-            var last = Breadcrumbs.Crumbs.Last();
-            foreach (var crumb in Breadcrumbs.Crumbs)
+            if (Breadcrumbs.Crumbs.Count() == 1)
             {
-                sb.AppendLine($"<li class=\"govuk-breadcrumbs__list-item\" { (crumb.Equals(last) ? "aria-current=\"page\"" : "")}>");
-                if (!crumb.Equals(last)) sb.AppendLine($"<a class=\"govuk-breadcrumbs__link\" href=\"{crumb.Url}\">");
-                sb.AppendLine($"{crumb.Text}");
-                if (!crumb.Equals(last)) sb.AppendLine("</a>");
-                sb.AppendLine("</li>");
+                    var crumb = Breadcrumbs.Crumbs.FirstOrDefault();
+               
+                    sb.AppendLine($"<li>");
+                    sb.AppendLine($"<a class=\"govuk-breadcrumbs__link\" href=\"{crumb.Url}\">");
+                    sb.AppendLine($"{crumb.Text}");
+                    sb.AppendLine("</a>");
+                    sb.AppendLine("</li>");
+             
+            }
+            else {
+
+                var last = Breadcrumbs.Crumbs.Last();
+
+                foreach (var crumb in Breadcrumbs.Crumbs)
+                {
+                    sb.AppendLine($"<li class=\"govuk-breadcrumbs__list-item\" { (crumb.Equals(last) ? "aria-current=\"page\"" : "")}>");
+                    if (!crumb.Equals(last)) sb.AppendLine($"<a class=\"govuk-breadcrumbs__link\" href=\"{crumb.Url}\">");
+                    sb.AppendLine($"{crumb.Text}");
+                    if (!crumb.Equals(last)) sb.AppendLine("</a>");
+                    sb.AppendLine("</li>");
+                }
+
             }
 
             sb.AppendLine("</ol>");
