@@ -22,14 +22,14 @@ namespace GDSHelpers.TagHelpers
 
             if (Breadcrumbs.Crumbs.Count() == 1)
             {
-                foreach (var crumb in Breadcrumbs.Crumbs)
-                {
+                    var crumb = Breadcrumbs.Crumbs.FirstOrDefault();
+               
                     sb.AppendLine($"<li>");
                     sb.AppendLine($"<a class=\"govuk-breadcrumbs__link\" href=\"{crumb.Url}\">");
                     sb.AppendLine($"{crumb.Text}");
                     sb.AppendLine("</a>");
                     sb.AppendLine("</li>");
-                }
+             
             }
             else {
 
