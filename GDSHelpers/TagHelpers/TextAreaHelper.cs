@@ -98,8 +98,10 @@ namespace GDSHelpers.TagHelpers
                 if (!string.IsNullOrEmpty(For.Metadata.Description))
                     modelBuilder.WriteHint(writer);
 
+                
                 modelBuilder.WriteValidation(writer);
 
+                modelBuilder.MaxLength = MaxLength;
                 modelBuilder.WriteTextArea(writer, useCounter);
 
                 if (CountType != GdsEnums.CountTypes.None)

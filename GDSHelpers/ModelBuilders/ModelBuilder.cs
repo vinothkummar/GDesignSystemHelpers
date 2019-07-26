@@ -79,7 +79,9 @@ namespace GDSHelpers
 
             if (!string.IsNullOrEmpty(For.Metadata.Description))
                 tagBuilder.MergeAttribute("aria-describedby", For.GenerateHintId());
-            
+            if (MaxLength != 0)
+                tagBuilder.MergeAttribute("maxlength", this.MaxLength.ToString());
+
             tagBuilder.WriteTo(writer, HtmlEncoder);
         }
         #endregion
