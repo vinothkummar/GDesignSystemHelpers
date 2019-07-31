@@ -126,6 +126,8 @@ namespace GDSHelpers
 
             //check for ampersand
             answer = answer.Replace("&amp;", "&");
+            answer = answer.Replace("amp;", "&");
+
             return answer;
         }
 
