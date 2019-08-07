@@ -88,7 +88,11 @@ namespace GDSHelpers
             var sb = new StringBuilder();
 
             sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss} {showWhenCss}\" {showWhen}>");
-            sb.AppendLine($"<label class=\"govuk-label gds-question\" for=\"{elementId}\">{question.Question}</label>");
+
+            if (!string.IsNullOrEmpty(question.InstructionText))
+                sb.AppendLine($"<p class=\"govuk-body\">{question.InstructionText}</p>");
+
+            sb.AppendLine($"<label class=\"govuk-label gds-question\" for=\"{elementId}\">{question.Question}</label>");           
 
             if (!string.IsNullOrEmpty(question.AdditionalText))
                 sb.AppendLine($"<span id=\"{elementId}-hint\" class=\"govuk-hint gds-hint\">{question.AdditionalText}</span>");
