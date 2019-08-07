@@ -18,6 +18,9 @@ namespace GDSHelpers.Models.FormSchema
         [JsonProperty("short_question")]
         public string ShortQuestion { get; set; }
 
+        [JsonProperty("instruction_text")]
+        public string InstructionText { get; set; }
+
 
         [JsonProperty("additional_text")]
         public string AdditionalText { get; set; }
