@@ -69,6 +69,9 @@ namespace GDSHelpers.Models.FormSchema
         [JsonProperty("validation")]
         public ValidationVM Validation { get; set; }
 
+        [JsonProperty("validations")]
+        public IEnumerable<ValidationVM> Validations { get; set; }
+
 
         [JsonProperty("answer")]
         public string Answer { get; set; }

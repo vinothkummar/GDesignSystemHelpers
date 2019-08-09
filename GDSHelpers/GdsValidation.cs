@@ -57,7 +57,7 @@ namespace GDSHelpers
                 var nextPageId = question.AnswerLogic?.FirstOrDefault(m => m.Value == answer)?.NextPageId;
                 if (nextPageId != null) pageVm.NextPageId = nextPageId;
 
-
+                //single validation..leave ftm
                 //Check if question is required
                 if (question.Validation?.Required.IsRequired == true && string.IsNullOrEmpty(answer))
                 {
@@ -92,7 +92,44 @@ namespace GDSHelpers
                     question.Validation.IsErrored = true;
                     question.Validation.ErrorMessage = question.Validation.Selected.ErrorMessage;
                 }
+                //validations
+                foreach (var validation in question.Validations)
+                {
+                    //Check if question is required
+                    if (question.Validation?.Required.IsRequired == true && string.IsNullOrEmpty(answer))
+                    {
+                        question.Validation.IsErrored = true;
+                        question.Validation.ErrorMessage = question.Validation.Required.ErrorMessage;
+                    }
 
+
+                    //Check length
+                    lengthType = question.Validation?.MaxLength?.Type.ToLower();
+                    answerLength = lengthType == "words" ? WordCount(answer) : answer.Length;
+
+                    if (question.Validation?.MinLength?.Min > answerLength)
+                    {
+                        question.Validation.IsErrored = true;
+                        question.Validation.ErrorMessage = question.Validation.MinLength.ErrorMessage;
+                    }
+
+                    if (question.Validation?.MaxLength?.Max < answerLength)
+                    {
+                        question.Validation.IsErrored = true;
+                        question.Validation.ErrorMessage = question.Validation.MaxLength.ErrorMessage;
+                    }
+
+
+                    //Check Minimum\Maximum Selected
+                    selectedOptionsCount = answer.Split(',').Length;
+                    min = question.Validation?.Selected?.Min;
+                    max = question.Validation?.Selected?.Max;
+                    if (selectedOptionsCount < min || selectedOptionsCount > max)
+                    {
+                        question.Validation.IsErrored = true;
+                        question.Validation.ErrorMessage = question.Validation.Selected.ErrorMessage;
+                    }
+                }
             }
 
             return pageVm;

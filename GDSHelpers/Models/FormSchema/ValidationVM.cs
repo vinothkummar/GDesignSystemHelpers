@@ -27,5 +27,8 @@ namespace GDSHelpers.Models.FormSchema
         [JsonProperty("error_message")]
         public string ErrorMessage { get; set; }
 
+
+        [JsonProperty("regex")]
+        public RegexVM Regex { get; set; }
     }
 }
