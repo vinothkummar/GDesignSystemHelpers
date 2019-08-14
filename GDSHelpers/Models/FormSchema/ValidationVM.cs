@@ -30,5 +30,9 @@ namespace GDSHelpers.Models.FormSchema
 
         [JsonProperty("regex")]
         public RegexVM Regex { get; set; }
+
+        [JsonProperty("required_if")]
+        public RequiredIfVM RequiredIf { get; set; }
+
     }
 }
