@@ -114,13 +114,13 @@ namespace GDSHelpers
                 {
                     //check parent question is answered
                     var parentAnswer = CleanText(requestForm[question.Validation.RequiredIf.ParentId].ToString(), stripHtml, restrictedWords, allowedChars);
-                    if (!string.IsNullOrEmpty(parentAnswer) && string.IsNullOrEmpty(answer))
+                    if (!string.IsNullOrEmpty(parentAnswer))
                     {
-                        var errored = true;
-                        if (!string.IsNullOrEmpty(question.Validation.RequiredIf.LinkedIds))
+                        var errored = string.IsNullOrEmpty(answer);//check if this question's been answered
+                        if (!string.IsNullOrEmpty(question.Validation.RequiredIf.LinkedIds) && (question.Validation.RequiredIf.InclusiveLogic.ToLower() == "or") && errored)
                         {
                             //check if other linked questions have been answered
-                            errored = (!CheckRelatedQuestions(requestForm, question.Validation.RequiredIf.LinkedIds, question.Validation.RequiredIf.InclusiveLogic, stripHtml, restrictedWords, allowedChars));
+                            errored = (!CheckRelatedQuestions(requestForm, question.Validation.RequiredIf.LinkedIds, stripHtml, restrictedWords, allowedChars));
                         }
 
                         if (errored)
@@ -149,41 +149,24 @@ namespace GDSHelpers
         /// </summary>
         /// <param name="requestForm"></param>
         /// <param name="questionIdList">comma separated list of question ids</param>
-        /// <param name="inclusiveLogic">and/or</param>
         /// <param name="stripHtml"></param>
         /// <param name="restrictedWords"></param>
         /// <param name="allowedChars"></param>
         /// <returns></returns>
-        public bool CheckRelatedQuestions(IFormCollection requestForm, string questionIdList, string inclusiveLogic, bool stripHtml, List<string> restrictedWords, HashSet<char> allowedChars)
+        public bool CheckRelatedQuestions(IFormCollection requestForm, string questionIdList, bool stripHtml, List<string> restrictedWords, HashSet<char> allowedChars)
         {
-            var relatedQuestionsAnswered = false;
-            if (!string.IsNullOrEmpty(questionIdList) && !string.IsNullOrEmpty(inclusiveLogic))
+            var questionIds = questionIdList.Split(',').ToList();
+            var answerCount = 0;
+            foreach (var questionId in questionIds)
             {
-                var questionIds = questionIdList.Split(',').ToList();                
-                var answerCount = 0;
-                foreach (var questionId in questionIds)
+                var linkedAnswer = CleanText(requestForm[questionId].ToString(), stripHtml, restrictedWords, allowedChars);
+                if (!string.IsNullOrEmpty(linkedAnswer))
                 {
-                    var linkedAnswer = CleanText(requestForm[questionId].ToString(), stripHtml, restrictedWords, allowedChars);
-                    if (!string.IsNullOrEmpty(linkedAnswer))
-                    {
-                        answerCount++;
-                        if (inclusiveLogic.ToLower().Equals("or"))
-                        {
-                            break;
-                        }                        
-                    }
-                }
-                if (inclusiveLogic.ToLower().Equals("or"))
-                {
-                    relatedQuestionsAnswered = (answerCount > 0);
-                }
-                else if (inclusiveLogic.ToLower().Equals("and"))
-                {
-                    relatedQuestionsAnswered = (answerCount == questionIds.Count);
+                    answerCount++;
+                    break;
                 }
             }
-
-            return relatedQuestionsAnswered;
+            return answerCount > 0;
         }
         public string CleanText(string answer, bool stripHtml = false, 
             List<string>restrictedWords = null, HashSet<char> allowedChars = null)

@@ -3,10 +3,7 @@
 namespace GDSHelpers.Models.FormSchema
 {
     public class RequiredIfVM
-    {
-        [JsonProperty("is_required")]
-        public bool IsRequired { get; set; }
-
+    {  
         [JsonProperty("inclusive_logic")]
         public string InclusiveLogic { get; set; }
 
@@ -18,6 +15,5 @@ namespace GDSHelpers.Models.FormSchema
 
         [JsonProperty("error_message")]
         public string ErrorMessage { get; set; }
-
     }
 }
