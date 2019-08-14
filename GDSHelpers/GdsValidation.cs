@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using Ganss.XSS;
 using GDSHelpers.Models.FormSchema;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace GDSHelpers
 {
@@ -57,7 +58,6 @@ namespace GDSHelpers
                 var nextPageId = question.AnswerLogic?.FirstOrDefault(m => m.Value == answer)?.NextPageId;
                 if (nextPageId != null) pageVm.NextPageId = nextPageId;
 
-
                 //Check if question is required
                 if (question.Validation?.Required.IsRequired == true && string.IsNullOrEmpty(answer))
                 {
@@ -65,23 +65,71 @@ namespace GDSHelpers
                     question.Validation.ErrorMessage = question.Validation.Required.ErrorMessage;
                 }
 
-
-                //Check length
-                var lengthType = question.Validation?.MaxLength?.Type.ToLower();
-                var answerLength = lengthType == "words" ? WordCount(answer) : answer.Length;
-
-                if (question.Validation?.MinLength?.Min > answerLength)
+                if (!question.Validation.IsErrored && (!string.IsNullOrEmpty(answer)))
                 {
-                    question.Validation.IsErrored = true;
-                    question.Validation.ErrorMessage = question.Validation.MinLength.ErrorMessage;
+                    //Check length
+                    var lengthType = question.Validation?.MaxLength?.Type.ToLower();
+                    var answerLength = lengthType == "words" ? WordCount(answer) : answer.Length;
+
+                    if (question.Validation?.MinLength?.Min > answerLength)
+                    {
+                        question.Validation.IsErrored = true;
+                        question.Validation.ErrorMessage = question.Validation.MinLength.ErrorMessage;
+                    }
+
+                    if (question.Validation?.MaxLength?.Max < answerLength)
+                    {
+                        question.Validation.IsErrored = true;
+                        question.Validation.ErrorMessage = question.Validation.MaxLength.ErrorMessage;
+                    }
                 }
 
-                if (question.Validation?.MaxLength?.Max < answerLength)
+                if (!question.Validation.IsErrored && (!string.IsNullOrEmpty(answer)) && (question.Validation.Regex != null))
                 {
-                    question.Validation.IsErrored = true;
-                    question.Validation.ErrorMessage = question.Validation.MaxLength.ErrorMessage;
+                    //check regex
+                    var error = false;
+                    var regexType = question.Validation.Regex.Regex;
+                    switch (regexType)
+                    {
+                        case "name":
+                            error = !RegexUtilities.IsValidName(answer);
+                            break;
+                        case "phone":
+                            error = !RegexUtilities.IsValidPhoneNumber(answer);
+                            break;
+                        case "email":
+                            error = !RegexUtilities.IsValidEmail(answer);
+                            break;
+                    }
+                                        
+                    if (error)
+                    {
+                        question.Validation.IsErrored = true;
+                        question.Validation.ErrorMessage = question.Validation.Regex.ErrorMessage;
+                    }
                 }
 
+                //Check if any other questions relevant to this are answered
+                if ((!question.Validation.IsErrored) && question.Validation?.RequiredIf != null)
+                {
+                    //check parent question is answered
+                    var parentAnswer = CleanText(requestForm[question.Validation.RequiredIf.ParentId].ToString(), stripHtml, restrictedWords, allowedChars);
+                    if (!string.IsNullOrEmpty(parentAnswer))
+                    {
+                        var errored = string.IsNullOrEmpty(answer);//check if this question's been answered
+                        if (!string.IsNullOrEmpty(question.Validation.RequiredIf.LinkedIds) && (question.Validation.RequiredIf.InclusiveLogic.ToLower() == "or") && errored)
+                        {
+                            //check if other linked questions have been answered
+                            errored = (!CheckRelatedQuestions(requestForm, question.Validation.RequiredIf.LinkedIds, stripHtml, restrictedWords, allowedChars));
+                        }
+
+                        if (errored)
+                        {
+                            question.Validation.IsErrored = true;
+                            question.Validation.ErrorMessage = question.Validation.RequiredIf.ErrorMessage;
+                        }
+                    }
+                }
 
                 //Check Minimum\Maximum Selected
                 var selectedOptionsCount = answer.Split(',').Length;
@@ -92,13 +140,34 @@ namespace GDSHelpers
                     question.Validation.IsErrored = true;
                     question.Validation.ErrorMessage = question.Validation.Selected.ErrorMessage;
                 }
-
             }
 
             return pageVm;
         }
-
-        
+        /// <summary>
+        /// checks if other linked questions have been answered
+        /// </summary>
+        /// <param name="requestForm"></param>
+        /// <param name="questionIdList">comma separated list of question ids</param>
+        /// <param name="stripHtml"></param>
+        /// <param name="restrictedWords"></param>
+        /// <param name="allowedChars"></param>
+        /// <returns></returns>
+        public bool CheckRelatedQuestions(IFormCollection requestForm, string questionIdList, bool stripHtml, List<string> restrictedWords, HashSet<char> allowedChars)
+        {
+            var questionIds = questionIdList.Split(',').ToList();
+            var answerCount = 0;
+            foreach (var questionId in questionIds)
+            {
+                var linkedAnswer = CleanText(requestForm[questionId].ToString(), stripHtml, restrictedWords, allowedChars);
+                if (!string.IsNullOrEmpty(linkedAnswer))
+                {
+                    answerCount++;
+                    break;
+                }
+            }
+            return answerCount > 0;
+        }
         public string CleanText(string answer, bool stripHtml = false, 
             List<string>restrictedWords = null, HashSet<char> allowedChars = null)
         {
@@ -139,6 +208,5 @@ namespace GDSHelpers
             var count = matches.Count;
             return count;
         }
-
     }
 }
