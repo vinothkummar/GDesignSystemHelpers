@@ -65,7 +65,7 @@ namespace GDSHelpers
                     question.Validation.ErrorMessage = question.Validation.Required.ErrorMessage;
                 }
 
-                if (!question.Validation.IsErrored && (!string.IsNullOrEmpty(answer)))
+                if (!question.Validation?.IsErrored == true && (!string.IsNullOrEmpty(answer)))
                 {
                     //Check length
                     var lengthType = question.Validation?.MaxLength?.Type.ToLower();
@@ -84,7 +84,7 @@ namespace GDSHelpers
                     }
                 }
 
-                if (!question.Validation.IsErrored && (!string.IsNullOrEmpty(answer)) && (question.Validation.Regex != null))
+                if (!question.Validation?.IsErrored == true && (!string.IsNullOrEmpty(answer)) && (question.Validation?.Regex != null))
                 {
                     //check regex
                     var error = false;
@@ -110,7 +110,7 @@ namespace GDSHelpers
                 }
 
                 //Check if any other questions relevant to this are answered
-                if ((!question.Validation.IsErrored) && question.Validation?.RequiredIf != null)
+                if ((!question.Validation?.IsErrored == true) && question.Validation?.RequiredIf != null)
                 {
                     //check parent question is answered
                     var parentAnswer = CleanText(requestForm[question.Validation.RequiredIf.ParentId].ToString(), stripHtml, restrictedWords, allowedChars);

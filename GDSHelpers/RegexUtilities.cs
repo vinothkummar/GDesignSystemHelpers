@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace GDSHelpers
 {
-    public class RegexUtilities
+    public static class RegexUtilities
     {
         public const string Name = "^[a-zA-Z --']*$";
         public const string PhoneNumber = "^[0-9]+";
