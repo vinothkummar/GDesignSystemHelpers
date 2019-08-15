@@ -6,9 +6,9 @@ namespace GDSHelpers
 {
     public static class RegexUtilities
     {
-        public const string Name = "^[a-zA-Z --']*$";
-        public const string PhoneNumber = "^[0-9]+";
-        public const string PhoneNumberWithFormat = "^[0][0-9]+";
+        public const string Name = "^([ \u00c0-\u01ffa-zA-Z' -])+$";
+        public const string FreeText = "^[a-zA-Z0-9 --/=':]?[^<>@#?$£%;^*]*$";
+        public const string PhoneNumber = "^(\\+0?44 )?[0-9]+";
         public const string Password = "(?=.\\d)(?=.[a-z])(?=.*[A-Z]).{8,}";
         public const string Email =
             @"^(?("")("".+?(?<!\\)""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&’'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))" +
@@ -36,6 +36,20 @@ namespace GDSHelpers
             try
             {
                 return Regex.IsMatch(phoneNumber, PhoneNumber, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                return false;
+            }
+        }
+        public static bool IsValidFreeText(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return false;
+
+            try
+            {
+                return Regex.IsMatch(text, FreeText, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
             }
             catch (RegexMatchTimeoutException)
             {
