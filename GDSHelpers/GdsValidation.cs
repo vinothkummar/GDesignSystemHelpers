@@ -100,8 +100,11 @@ namespace GDSHelpers
                         case "email":
                             error = !RegexUtilities.IsValidEmail(answer);
                             break;
+                        case "freetext":
+                            error = !RegexUtilities.IsValidFreeText(answer);
+                            break;
                     }
-                                        
+
                     if (error)
                     {
                         question.Validation.IsErrored = true;
