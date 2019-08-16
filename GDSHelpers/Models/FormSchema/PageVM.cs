@@ -43,5 +43,8 @@ namespace GDSHelpers.Models.FormSchema
         [JsonProperty("page_title")]
         public string PageTitle { get; set; }
 
+        [JsonProperty("show_related_content")]
+        public bool ShowRelatedContent { get; set; }
+
     }
 }
