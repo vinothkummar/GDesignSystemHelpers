@@ -16,7 +16,7 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("alt-text")]
         public string AltText { get; set; }
 
-        [HtmlAttributeName("svg-Path")]
+        [HtmlAttributeName("svg-path")]
         public string SvgPath { get; set; }
 
         [HtmlAttributeName("role")]
@@ -28,6 +28,15 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("image-url")]
         public string ImageUrl { get; set; }
 
+        [HtmlAttributeName("svg-viewbox")]
+        public string SvgViewBox{ get; set; }
+
+        [HtmlAttributeName("svg-image-height")]
+        public string SvgImageHeight { get; set; }
+
+        [HtmlAttributeName("svg-image-width")]
+        public string SvgImageWidth { get; set; }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "div";
@@ -38,13 +47,16 @@ namespace GDSHelpers.TagHelpers
             var svgPath = string.IsNullOrEmpty(SvgPath) ? "" : $"{SvgPath}";
             var role = string.IsNullOrEmpty(Role) ? "" : $"role=\"{Role}\"";
             var focusable = string.IsNullOrEmpty(Focusable) ? "" : $"focusable=\"{Focusable}\"";
+            var svgViewBox = string.IsNullOrEmpty(SvgViewBox) ? "" : $"viewBox=\"{SvgViewBox}\"";
+            var svgImageHeight = string.IsNullOrEmpty(SvgImageHeight) ? "" : $"height=\"{SvgImageHeight}\"";
+            var svgImageWidth = string.IsNullOrEmpty(SvgImageWidth) ? "" : $"width=\"{SvgImageWidth}\"";
 
             var sb = new StringBuilder();            
             sb.AppendLine($"<a href=\"{Url}\" class=\"govuk-header__link govuk-header__link--homepage\" {urlTitle}>");
             sb.AppendLine($"<span class=\"govuk-header_logotype\">");
-            sb.AppendLine($"<svg {role} {focusable} {altText} class=\"govuk-header__logotype-cqc\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200.9174 66.055\" height=\"66.055\" width=\"200.9174\">");
+            sb.AppendLine($"<svg {role} {focusable} {altText} class=\"govuk-header__logotype-cqc\" xmlns=\"http://www.w3.org/2000/svg\" {svgViewBox} {svgImageHeight} {svgImageWidth}>");
             sb.AppendLine($"{svgPath}");
-            sb.AppendLine($"<image xlink:href=\"\" src=\"{ImageUrl}\" class=\".govuk-header__logotype-cqc-fallback-image\" {altText} />");
+            sb.AppendLine($"<image src=\"{ImageUrl}\" class=\".govuk-header__logotype-cqc-fallback-image\" {altText} />");
             sb.AppendLine("</svg>");
             sb.AppendLine("</span>");
             sb.AppendLine("</a>");
