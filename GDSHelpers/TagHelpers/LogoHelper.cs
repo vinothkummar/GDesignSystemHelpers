@@ -56,7 +56,7 @@ namespace GDSHelpers.TagHelpers
             sb.AppendLine($"<span class=\"govuk-header_logotype\">");
             sb.AppendLine($"<svg {role} {focusable} {altText} class=\"govuk-header__logotype-cqc\" xmlns=\"http://www.w3.org/2000/svg\" {svgViewBox} {svgImageHeight} {svgImageWidth}>");
             sb.AppendLine($"{svgPath}");
-            sb.AppendLine($"<image src=\"{ImageUrl}\" class=\".govuk-header__logotype-cqc-fallback-image\" {altText} />");
+            sb.AppendLine($"<image src=\"{ImageUrl}\" class=\"govuk-header__logotype-cqc-fallback-image\" {altText} />");
             sb.AppendLine("</svg>");
             sb.AppendLine("</span>");
             sb.AppendLine("</a>");
