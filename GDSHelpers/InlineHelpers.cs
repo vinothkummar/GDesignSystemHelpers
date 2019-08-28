@@ -74,6 +74,7 @@ namespace GDSHelpers
             var elementId = question.QuestionId;
             var isErrored = question.Validation?.IsErrored == true;
             var errorMsg = question.Validation?.ErrorMessage;
+            var requiredIf = question.Validation?.RequiredIf?.ErrorMessage == errorMsg;//flag if its a conditional required field
             var erroredCss = isErrored ? "govuk-form-group--error" : "";
             var erroredInputCss = isErrored ? "govuk-input--error" : "";
 
@@ -89,6 +90,9 @@ namespace GDSHelpers
 
             sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss} {showWhenCss}\" {showWhen}>");
 
+            if (isErrored && requiredIf)//places the error at the top of a group of required fields
+                sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
+
             if (!string.IsNullOrEmpty(question.InstructionText))
                 sb.AppendLine($"<p class=\"govuk-body\">{question.InstructionText}</p>");
 
@@ -100,7 +104,7 @@ namespace GDSHelpers
             if (!string.IsNullOrEmpty(question.HtmlContent))
                 sb.AppendLine(question.HtmlContent);
 
-            if (isErrored)
+            if (isErrored && (! requiredIf))//places the error at next to errored fields
                 sb.AppendLine($"<span id=\"{elementId}-error\" class=\"govuk-error-message\">{errorMsg}</span>");
 
             sb.AppendLine($"<input class=\"govuk-input {erroredInputCss} {question.InputCss}\" id=\"{elementId}\" name=\"{elementId}\" type=\"{question.DataType}\" {ariaDescribedBy} value=\"{question.Answer}\">");

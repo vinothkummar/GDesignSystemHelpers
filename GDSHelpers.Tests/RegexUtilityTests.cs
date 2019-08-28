@@ -45,7 +45,7 @@ namespace GDSHelpers.Tests
         [InlineData("12345 678912")]
         [InlineData("01632 960 001")]
         [InlineData("07700 900 982")]
-        [InlineData("+44 0808 157 0192")]
+        [InlineData("44 0808 157 0192")]
         [InlineData("123 12345 678912")]
         public void PhoneNumber_should_pass(string phoneNumber)
         {
@@ -59,6 +59,10 @@ namespace GDSHelpers.Tests
         [InlineData("(123)12345 678912")]
         [InlineData("(+44)12345 678912")]
         [InlineData("+4412345 678912")]
+        [InlineData("123()")]
+        [InlineData("123(abcdefg)")]
+        [InlineData("123abcdefg")]
+        [InlineData("abcdefg")]
         public void PhoneNumber_should_fail(string phoneNumber)
         {
             var result = RegexUtilities.IsValidPhoneNumber(phoneNumber);
@@ -72,7 +76,7 @@ namespace GDSHelpers.Tests
         [InlineData("FIRSTNAME LASTNAME")]
         [InlineData("firstname-lastname")]
         [InlineData("firstname o'lastname")]
-        [InlineData("FIRSTNAME O'LASTNAME")]
+        [InlineData("FIRSTNAME O'LASTNAME")]        
         public void Name_should_pass(string name)
         {
             var result = RegexUtilities.IsValidName(name);
@@ -123,6 +127,13 @@ namespace GDSHelpers.Tests
         [InlineData("loads of text@")]
         [InlineData("loads of text#")]
         [InlineData("loads of text?")]
+        [InlineData("loads of text|")]
+        [InlineData(@"loads of text\")]
+        [InlineData("loads of text~")]
+        [InlineData("loads of text{")]
+        [InlineData("loads of text}")]
+        [InlineData("loads of text[")]
+        [InlineData("loads of text]")]
         public void FreeText_should_fail(string text)
         {
             var result = RegexUtilities.IsValidFreeText(text);

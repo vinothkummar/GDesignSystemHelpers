@@ -7,8 +7,8 @@ namespace GDSHelpers
     public static class RegexUtilities
     {
         public const string Name = "^([ \u00c0-\u01ffa-zA-Z' -])+$";
-        public const string FreeText = "^[a-zA-Z0-9 --/=':]?[^<>@#?$£%;^*]*$";
-        public const string PhoneNumber = "^(\\+0?44 )?[0-9]+";
+        public const string FreeText = @"^[a-zA-Z0-9 --/=':]?[^<>@#?$£%;^*|\\~}{}\]\[]*$";
+        public const string PhoneNumber = @"^([ ]?\d)+$";//integer only plus spaces
         public const string Password = "(?=.\\d)(?=.[a-z])(?=.*[A-Z]).{8,}";
         public const string Email =
             @"^(?("")("".+?(?<!\\)""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&’'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))" +
