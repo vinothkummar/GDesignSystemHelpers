@@ -39,14 +39,13 @@ namespace GDSHelpers.Tests
         }
 
         [Theory]
-        [InlineData("12345678912")]
-        [InlineData("1234567891")]
-        [InlineData("12345 678 912")]
-        [InlineData("12345 678912")]
+        [InlineData("+447222555555")]
+        [InlineData("+44 7222 555 555")]
+        [InlineData("(0722) 5555555 #2222")]
+        [InlineData("01632960001")]
         [InlineData("01632 960 001")]
-        [InlineData("07700 900 982")]
-        [InlineData("44 0808 157 0192")]
-        [InlineData("123 12345 678912")]
+        [InlineData("01632 960001")]
+        [InlineData("01632960 001")]
         public void PhoneNumber_should_pass(string phoneNumber)
         {
             var result = RegexUtilities.IsValidPhoneNumber(phoneNumber);
@@ -56,13 +55,13 @@ namespace GDSHelpers.Tests
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        [InlineData("(123)12345 678912")]
-        [InlineData("(+44)12345 678912")]
-        [InlineData("+4412345 678912")]
         [InlineData("123()")]
         [InlineData("123(abcdefg)")]
         [InlineData("123abcdefg")]
         [InlineData("abcdefg")]
+        [InlineData("(+447222)555555")]
+        [InlineData("+44(7222)555555")]
+        [InlineData("(0722) 5555555 #22")]
         public void PhoneNumber_should_fail(string phoneNumber)
         {
             var result = RegexUtilities.IsValidPhoneNumber(phoneNumber);
