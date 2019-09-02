@@ -69,7 +69,7 @@ namespace GDSHelpers
                 {
                     //Check length (exclude newlines)
                     var lengthType = question.Validation?.MaxLength?.Type.ToLower();
-                    var answerLength = lengthType == "words" ? WordCount(answer) : answer.Replace("\n","").Length;
+                    var answerLength = lengthType == "words" ? WordCount(answer) : answer.Length;
 
                     if (question.Validation?.MinLength?.Min > answerLength)
                     {
