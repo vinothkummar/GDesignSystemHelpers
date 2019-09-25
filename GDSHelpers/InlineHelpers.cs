@@ -120,6 +120,9 @@ namespace GDSHelpers
             var showCounter = question.Validation?.MaxLength != null;
             var counterCount = question.Validation?.MaxLength?.Max;
             var counterType = question.Validation?.MaxLength?.Type == "words" ? "maxwords" : "maxlength";
+            var counterThreshold = question.Validation?.MaxLength?.Threshold > 0
+                                    ? $"data-threshold=\"{question.Validation?.MaxLength?.Threshold}\""
+                                    : "";
             var counterCss = showCounter ? "js-character-count" : "";
 
             var isErrored = question.Validation?.IsErrored == true;
@@ -141,12 +144,14 @@ namespace GDSHelpers
 
             if (showCounter)
             {
-                sb.AppendLine($"<div {questionId} class=\"govuk-character-count {showWhenCss}\" data-module=\"character-count\" data-{counterType}=\"{counterCount}\" {showWhen}>");
+                sb.AppendLine($"<div {questionId} class=\"govuk-character-count {showWhenCss}\" " +
+                              $"data-module=\"character-count\" data-{counterType}=\"{counterCount}\" " +
+                              $"{counterThreshold} {showWhen}>");
                 showWhen = "";
                 questionId = "";
                 showWhenCss = "";
             }
- 
+
 
             sb.AppendLine($"<div {questionId} class=\"govuk-form-group {erroredCss} {showWhenCss}\" {showWhen}>");
             sb.AppendLine($"<label class=\"govuk-label gds-question\"  for=\"{elementId}\">{question.Question}</label>");
