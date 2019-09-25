@@ -12,6 +12,10 @@ namespace GDSHelpers.Models.FormSchema
         public int Max { get; set; }
 
 
+        [JsonProperty("threshold")]
+        public int Threshold { get; set; }
+
+
         [JsonProperty("error_message")]
         public string ErrorMessage { get; set; }
 
