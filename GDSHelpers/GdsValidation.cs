@@ -200,6 +200,9 @@ namespace GDSHelpers
             answer = answer.Replace("&amp;", "&");
             answer = answer.Replace("amp;", "&");
 
+            //Remove leading and trailing spaces
+            answer = answer.Trim();
+
             return answer;
         }
 
