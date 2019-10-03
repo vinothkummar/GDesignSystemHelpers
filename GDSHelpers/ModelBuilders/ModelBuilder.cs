@@ -16,7 +16,7 @@ namespace GDSHelpers
 
 
         #region Label
-        public void WriteLabel(TextWriter writer, string hiddenLabel = "")
+        public void WriteLabel(TextWriter writer, string hiddenSpan = "")
         {
             var tagBuilder = HtmlGenerator.GenerateLabel(
                 ViewContext,
@@ -25,8 +25,8 @@ namespace GDSHelpers
                 null,
                 new { @class = "govuk-label" });
 
-            if (!string.IsNullOrWhiteSpace(hiddenLabel) && hiddenLabel.Length>1)
-                tagBuilder.InnerHtml.AppendHtml($"<span class=\"govuk-visually-hidden\">{hiddenLabel}</span>");
+            if (!string.IsNullOrWhiteSpace(hiddenSpan) && hiddenSpan.Length>1)
+                tagBuilder.InnerHtml.AppendHtml($"<span class=\"govuk-visually-hidden\">{hiddenSpan}</span>");
 
             tagBuilder.WriteTo(writer, HtmlEncoder);
         }
