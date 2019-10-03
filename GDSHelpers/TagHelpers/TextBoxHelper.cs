@@ -38,6 +38,9 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("input-width-chars")]
         public string InputWidthChars { get; set; }
 
+        [HtmlAttributeName("hidden-label")]
+        public string HiddenLabel { get; set; }
+
         [HtmlAttributeName("max-length")]
         public int MaxLength{ get; set; }
 
@@ -73,7 +76,7 @@ namespace GDSHelpers.TagHelpers
             
             using (var writer = new StringWriter())
             {
-                modelBuilder.WriteLabel(writer);
+                modelBuilder.WriteLabel(writer, HiddenLabel);
 
                 if (!string.IsNullOrEmpty(For.Metadata.Description))
                     modelBuilder.WriteHint(writer);
