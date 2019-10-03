@@ -88,7 +88,8 @@ namespace GDSHelpers
                 {
                     //check regex
                     var error = false;
-                    var regexType = question.Validation.Regex.Regex;
+                    var regEx = question.Validation.Regex;
+                    var regexType = regEx.Regex;
                     switch (regexType)
                     {
                         case "name":
@@ -102,6 +103,9 @@ namespace GDSHelpers
                             break;
                         case "freetext":
                             error = !RegexUtilities.IsValidFreeText(answer);
+                            break;
+                        case "custom":
+                            error = !RegexUtilities.IsValidCustomText(regEx?.Expression, answer);
                             break;
                     }
 

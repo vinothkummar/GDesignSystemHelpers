@@ -27,7 +27,6 @@ namespace GDSHelpers
                 return false;
             }
         }
-
         public static bool IsValidPhoneNumber(string phoneNumber)
         {
             if (string.IsNullOrWhiteSpace(phoneNumber))
@@ -91,6 +90,20 @@ namespace GDSHelpers
             try
             {
                 return Regex.IsMatch(email,Email, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                return false;
+            }
+        }
+        public static bool IsValidCustomText(string expression, string text)
+        {
+            if (string.IsNullOrWhiteSpace(expression) || string.IsNullOrWhiteSpace(text))
+                return false;
+
+            try
+            {
+                return Regex.IsMatch(text, expression, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
             }
             catch (RegexMatchTimeoutException)
             {

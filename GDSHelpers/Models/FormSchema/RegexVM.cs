@@ -10,6 +10,9 @@ namespace GDSHelpers.Models.FormSchema
         [JsonProperty("regex")]
         public string Regex { get; set; }
 
+        [JsonProperty("expression")]
+        public string Expression { get; set; }
+
         [JsonProperty("error_message")]
         public string ErrorMessage { get; set; }
     }
