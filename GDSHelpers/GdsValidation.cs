@@ -61,8 +61,23 @@ namespace GDSHelpers
                 //Check if question is required
                 if (question.Validation?.Required.IsRequired == true && string.IsNullOrEmpty(answer))
                 {
-                    question.Validation.IsErrored = true;
-                    question.Validation.ErrorMessage = question.Validation.Required.ErrorMessage;
+                    //If this is a dynamic question we need to check the parent question
+                    if (question.ShowWhen != null)
+                    {
+                        var parentId = question.ShowWhen.QuestionId;
+                        var parentAnswerToCheckFor = question.ShowWhen.Answer;
+                        var parentAnswer = CleanText(requestForm[parentId].ToString(), stripHtml, restrictedWords, allowedChars);
+                        if (parentAnswer == parentAnswerToCheckFor)
+                        {
+                            question.Validation.IsErrored = true;
+                            question.Validation.ErrorMessage = question.Validation.Required.ErrorMessage;
+                        }
+                    }
+                    else
+                    {
+                        question.Validation.IsErrored = true;
+                        question.Validation.ErrorMessage = question.Validation.Required.ErrorMessage;
+                    }
                 }
 
                 if (!question.Validation?.IsErrored == true && (!string.IsNullOrEmpty(answer)))
