@@ -59,7 +59,15 @@ namespace GDSHelpers
             [Description("url")]
             Url,
             [Description("sex")]
-            Sex
+            Sex,
+            [Description("bday")]
+            FullDate,
+            [Description("bday-day")]
+            DateDay,
+            [Description("bday-month")]
+            DateMonth,
+            [Description("bday-year")]
+            DateYear,
         }
     }
 }
