@@ -32,12 +32,12 @@ namespace GDSHelpers
         }
         #endregion
         #region WriteHint
-        public void WriteHint(TextWriter writer)
+        public void WriteHint(TextWriter writer, string description ="")
         {
             var lbl = new TagBuilder("span");
             lbl.MergeAttribute("id", For.GenerateHintId());
             lbl.MergeAttribute("class", "govuk-hint");
-            lbl.InnerHtml.Append(For.Metadata.Description);
+            lbl.InnerHtml.Append(For.Metadata.Description ?? description);
             lbl.WriteTo(writer, HtmlEncoder);
         }
         public void WriteValidation(TextWriter writer)

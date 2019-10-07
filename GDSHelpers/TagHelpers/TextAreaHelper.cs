@@ -42,6 +42,8 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("threshold")]
         public int Threshold { get; set; } = 0;
 
+        [HtmlAttributeName("hint-text")]
+        public string HintText { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
@@ -95,8 +97,8 @@ namespace GDSHelpers.TagHelpers
             {
                 modelBuilder.WriteLabel(writer);
 
-                if (!string.IsNullOrEmpty(For.Metadata.Description))
-                    modelBuilder.WriteHint(writer);
+                if (!string.IsNullOrEmpty(For.Metadata.Description) || !string.IsNullOrEmpty(HintText))
+                    modelBuilder.WriteHint(writer, HintText);
 
                 
                 modelBuilder.WriteValidation(writer);
