@@ -27,25 +27,26 @@ namespace GDSHelpers.TagHelpers
         public string AutoComplete { get; set; }
 
         [HtmlAttributeName("width-class")]
-        public string WidthCssClass { get; set; } 
+        public string WidthCssClass { get; set; }
+
+        [HtmlAttributeName("max-length")]
+        public int MaxLength { get; set; }
 
         [HtmlAttributeName("for")]
         public ModelExpression For { get; set; }
 
         [HtmlAttributeNotBound]
         [ViewContext]
-        public ViewContext ViewContext { get; set; } 
+        public ViewContext ViewContext { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
-        { 
+        {
             output.TagName = "div";
             output.TagMode = TagMode.StartTagAndEndTag;
             output.AddClass("govuk-date-input__item", HtmlEncoder.Default);
 
             output.PreContent.SetHtmlContent($@"<div class=""govuk-form-group"" id=""{DateBoxId}"">");
 
-            ViewContext.ViewData.ModelState.TryGetValue(For.Name, out var entry);
-             
             using (var writer = new StringWriter())
             {
                 var labelBuilder = _htmlGenerator.GenerateLabel(
@@ -72,6 +73,11 @@ namespace GDSHelpers.TagHelpers
                 if (!string.IsNullOrEmpty(this.WidthCssClass))
                 {
                     textboxBuilder.AddCssClass(WidthCssClass);
+                }
+
+                if (MaxLength > 0)
+                {
+                    textboxBuilder.MergeAttribute("maxlength", MaxLength.ToString());
                 }
 
                 if (!string.IsNullOrEmpty(For.Name))

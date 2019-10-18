@@ -1,8 +1,6 @@
-﻿using System;
-using System.Text.Encodings.Web;
+﻿using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
 
 namespace GDSHelpers.TagHelpers
 {
