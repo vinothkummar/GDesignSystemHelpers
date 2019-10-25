@@ -6,7 +6,7 @@ namespace GDSHelpers
 {
     public static class RegexUtilities
     {
-        public const string Name = "^([ \u00c0-\u01ffa-zA-Z' -])+$";
+        public const string Name = "^([ \u00c0-\u01ffa-zA-Z' .-])+$";
         public const string FreeText = @"^[a-zA-Z0-9 --/=':]?[^<>@#?$£%;^*|\\~}{}\]\[]*$";
         public const string PhoneNumber = @"^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$";
         public const string Password = "(?=.\\d)(?=.[a-z])(?=.*[A-Z]).{8,}";
