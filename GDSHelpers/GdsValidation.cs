@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using Ganss.XSS;
+using GDSHelpers.Extensions;
 using GDSHelpers.Models.FormSchema;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -166,6 +167,7 @@ namespace GDSHelpers
 
             return pageVm;
         }
+
         /// <summary>
         /// checks if other linked questions have been answered
         /// </summary>
@@ -190,15 +192,15 @@ namespace GDSHelpers
             }
             return answerCount > 0;
         }
+
         public string CleanText(string answer, bool stripHtml = false, 
             List<string>restrictedWords = null, HashSet<char> allowedChars = null)
         {
             //Strip out any Html
-            if (stripHtml)
-            {
-                var htmlSanitizer = new HtmlSanitizer();
-                answer = htmlSanitizer.Sanitize(answer);
-            }
+            if (stripHtml) answer = answer.StripHtml();
+
+            //Replace any Smart Quotes
+            answer = answer.ReplaceSmartQuotes();
 
             //Check for non-allowed words
             if (restrictedWords != null)
@@ -224,8 +226,7 @@ namespace GDSHelpers
 
             return answer;
         }
-
-
+        
         public int WordCount(string text)
         {
             var regex = new Regex(@"\S+", RegexOptions.IgnoreCase);
