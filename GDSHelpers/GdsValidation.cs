@@ -196,6 +196,9 @@ namespace GDSHelpers
         public string CleanText(string answer, bool stripHtml = false, 
             List<string>restrictedWords = null, HashSet<char> allowedChars = null)
         {
+            if (string.IsNullOrEmpty(answer))
+                return string.Empty;
+
             //Strip out any Html
             if (stripHtml) answer = answer.StripHtml();
 
