@@ -29,11 +29,11 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("width-class")]
         public string WidthCssClass { get; set; }
 
-        [HtmlAttributeName("max-length")]
-        public int MaxLength { get; set; }
-
         [HtmlAttributeName("for")]
         public ModelExpression For { get; set; }
+
+        [HtmlAttributeName("hide-label")]
+        public bool HideLabel { get; set; }
 
         [HtmlAttributeNotBound]
         [ViewContext]
@@ -49,13 +49,16 @@ namespace GDSHelpers.TagHelpers
 
             using (var writer = new StringWriter())
             {
-                var labelBuilder = _htmlGenerator.GenerateLabel(
-                    ViewContext,
-                    For.ModelExplorer,
-                    For.Name,
-                    null,
-                    new { @class = "govuk-label govuk-date-input__label" });
-                labelBuilder.WriteTo(writer, _htmlEncoder);
+                if (!HideLabel)
+                {
+                    var labelBuilder = _htmlGenerator.GenerateLabel(
+                        ViewContext,
+                        For.ModelExplorer,
+                        For.Name,
+                        null,
+                        new { @class = "govuk-label govuk-date-input__label" });
+                    labelBuilder.WriteTo(writer, _htmlEncoder);
+                }
 
                 var textboxBuilder = _htmlGenerator.GenerateTextBox(
                     ViewContext,
@@ -75,11 +78,6 @@ namespace GDSHelpers.TagHelpers
                     textboxBuilder.AddCssClass(WidthCssClass);
                 }
 
-                if (MaxLength > 0)
-                {
-                    textboxBuilder.MergeAttribute("maxlength", MaxLength.ToString());
-                }
-
                 if (!string.IsNullOrEmpty(For.Name))
                 {
                     textboxBuilder.MergeAttribute("aria-describedby", For.Name);
@@ -87,8 +85,6 @@ namespace GDSHelpers.TagHelpers
 
                 if (!string.IsNullOrEmpty(DateBoxId))
                 { textboxBuilder.MergeAttribute("aria-labelledby", DateBoxId); }
-
-                textboxBuilder.MergeAttribute("pattern", "[0-9]*");
 
                 textboxBuilder.WriteTo(writer, _htmlEncoder);
 

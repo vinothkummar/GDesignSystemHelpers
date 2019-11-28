@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 namespace GDSHelpers.TagHelpers
 {
 
-    [HtmlTargetElement("gds-ul"), RestrictChildren("gds-li")]
+    [HtmlTargetElement("gds-ul"), RestrictChildren("gds-li","partial")]
     public class UnOrderedListHelper : TagHelper
     {
         [HtmlAttributeName("list-id")]
