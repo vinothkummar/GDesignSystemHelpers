@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text.Encodings.Web;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace GDSHelpers.TagHelpers
@@ -10,7 +12,8 @@ namespace GDSHelpers.TagHelpers
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "p";
-            output.Attributes.SetAttribute("class", "govuk-body");
+            // output.Attributes.SetAttribute("class", "govuk-body");
+            output.AddClass("govuk-body", HtmlEncoder.Default);
 
             var children = await output.GetChildContentAsync();
             output.Content.SetHtmlContent(children);
