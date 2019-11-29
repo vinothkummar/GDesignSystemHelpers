@@ -12,7 +12,6 @@ namespace GDSHelpers.TagHelpers
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "p";
-            // output.Attributes.SetAttribute("class", "govuk-body");
             output.AddClass("govuk-body", HtmlEncoder.Default);
 
             var children = await output.GetChildContentAsync();
