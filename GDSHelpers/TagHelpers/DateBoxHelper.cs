@@ -29,6 +29,10 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("width-class")]
         public string WidthCssClass { get; set; }
 
+        [HtmlAttributeName("max-length")]
+        public string MaxLength { get; set; }
+
+
         [HtmlAttributeName("for")]
         public ModelExpression For { get; set; }
 
@@ -76,6 +80,11 @@ namespace GDSHelpers.TagHelpers
                 if (!string.IsNullOrEmpty(this.WidthCssClass))
                 {
                     textboxBuilder.AddCssClass(WidthCssClass);
+                }
+
+                if (!string.IsNullOrEmpty(this.MaxLength))
+                {
+                    textboxBuilder.MergeAttribute("max-length", MaxLength);
                 }
 
                 if (!string.IsNullOrEmpty(For.Name))
