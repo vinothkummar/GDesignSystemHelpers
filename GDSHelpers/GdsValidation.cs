@@ -59,26 +59,38 @@ namespace GDSHelpers
                 var nextPageId = question.AnswerLogic?.FirstOrDefault(m => m.Value == answer)?.NextPageId;
                 if (nextPageId != null) pageVm.NextPageId = nextPageId;
 
-                //For dynamic questions, delete answer if the parent answer is not the one we require
+                //For dynamic questions:
                 if (question.ShowWhen != null)
                 {
                     //Set variables relating to dynamic questions
                     var parentId = question.ShowWhen.QuestionId;
                     var parentAnswer = CleanText(requestForm[parentId].ToString(), stripHtml, restrictedWords, allowedChars);
                     var parentAnswerRequired = question.ShowWhen.Answer;
+                    var shownToUser = parentAnswer == parentAnswerRequired;
 
                     //Delete contents if parent answer is not the correct one
-                    if (parentAnswer != parentAnswerRequired)
+                    if (shownToUser)
+                    {
+                        //Check whether the question is required
+                        if (question.Validation?.Required.IsRequired == true && string.IsNullOrEmpty(answer))
+                        {
+                            question.Validation.IsErrored = true;
+                            question.Validation.ErrorMessage = question.Validation.Required.ErrorMessage;
+                        }
+                    }
+                    else
                     {
                         question.Answer = string.Empty;
                     }
                 }
-
-                //Check whether the question is required
-                if (question.Validation?.Required.IsRequired == true && string.IsNullOrEmpty(answer))
+                else
                 {
-                    question.Validation.IsErrored = true;
-                    question.Validation.ErrorMessage = question.Validation.Required.ErrorMessage;
+                    //Check whether the question is required
+                    if (question.Validation?.Required.IsRequired == true && string.IsNullOrEmpty(answer))
+                    {
+                        question.Validation.IsErrored = true;
+                        question.Validation.ErrorMessage = question.Validation.Required.ErrorMessage;
+                    }
                 }
 
                 if (!question.Validation?.IsErrored == true && (!string.IsNullOrEmpty(answer)))
