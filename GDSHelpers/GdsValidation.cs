@@ -222,7 +222,7 @@ namespace GDSHelpers
             {
                 foreach (var word in restrictedWords)
                 {
-                    if (answer.ToLower().Contains(word)) return "";
+                    if (answer.ToLower().Contains(word.ToLower())) return "";
                 }
             }
 
