@@ -46,6 +46,9 @@ namespace GDSHelpers.TagHelpers
         [HtmlAttributeName("for")]
         public ModelExpression For { get; set; }
 
+        [HtmlAttributeName("custom-label")]
+        public string CustomLabel { get; set; }
+
         [HtmlAttributeNotBound]
         [ViewContext]
         public ViewContext ViewContext { get; set; }
@@ -75,7 +78,7 @@ namespace GDSHelpers.TagHelpers
             
             using (var writer = new StringWriter())
             {
-                modelBuilder.WriteLabel(writer, HiddenSpan);
+                modelBuilder.WriteLabel(writer, HiddenSpan, CustomLabel);
 
                 if (!string.IsNullOrEmpty(For.Metadata.Description))
                     modelBuilder.WriteHint(writer);

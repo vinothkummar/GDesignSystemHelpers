@@ -14,18 +14,17 @@ namespace GDSHelpers
         public ViewContext ViewContext { get; set; }
 
 
-
         #region Label
-        public void WriteLabel(TextWriter writer, string hiddenSpan = "")
+        public void WriteLabel(TextWriter writer, string hiddenSpan = "", string customLabel = "")
         {
             var tagBuilder = HtmlGenerator.GenerateLabel(
                 ViewContext,
                 For.ModelExplorer,
-                For.Name,
-                null,
+                string.IsNullOrEmpty(customLabel) ? For.Name : null,
+                string.IsNullOrEmpty(customLabel) ? null : customLabel,
                 new { @class = "govuk-label" });
 
-            if (!string.IsNullOrWhiteSpace(hiddenSpan) && hiddenSpan.Length>1)
+            if (!string.IsNullOrWhiteSpace(hiddenSpan) && hiddenSpan.Length > 1)
                 tagBuilder.InnerHtml.AppendHtml($"<span class=\"govuk-visually-hidden\">{hiddenSpan}</span>");
 
             tagBuilder.WriteTo(writer, HtmlEncoder);
