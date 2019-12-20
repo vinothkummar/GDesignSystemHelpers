@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GDSHelpers.TestSite.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GDSHelpers.TestSite.Controllers
 {
@@ -9,6 +10,12 @@ namespace GDSHelpers.TestSite.Controllers
         public IActionResult Tag(string tagView)
         {
             return View(tagView);
+        }
+
+        public IActionResult TextBoxTest2()
+        {
+            ChildOfSampleModel vm = new ChildOfSampleModel();
+            return View("../TagHelpers/TextBox", vm);
         }
     }
 }

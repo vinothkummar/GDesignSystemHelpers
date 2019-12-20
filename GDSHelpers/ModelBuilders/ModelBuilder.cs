@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Reflection;
 using System.Text.Encodings.Web;
+using GDSHelpers.Extensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
@@ -13,14 +17,31 @@ namespace GDSHelpers
         public ModelExpression For { get; set; }
         public ViewContext ViewContext { get; set; }
 
+        /// <summary>
+        /// Will be true if view declares a base class, but you are passing a derived class
+        /// </summary>
+        public bool IsViewModelTypeDifferentThanRuntimeType
+        {
+            get
+            {
+                var viewModelType = For.Metadata.ContainerType.Name;
+                var runtimeModelType = For.ModelExplorer.Container.ModelType.Name;
+                bool result = (viewModelType != runtimeModelType);
+                return result;
+            }
+        }
 
         #region Label
-        public void WriteLabel(TextWriter writer, string hiddenSpan = "", string customLabel = "")
+
+        /// <summary>
+        /// Original code that is generating the label
+        /// </summary>
+        protected void GenerateLabelHtml(TextWriter writer, string hiddenSpan = "", string customLabel = "")
         {
             var tagBuilder = HtmlGenerator.GenerateLabel(
                 ViewContext,
                 For.ModelExplorer,
-                string.IsNullOrEmpty(customLabel) ? For.Name : null,
+                For.Name,
                 string.IsNullOrEmpty(customLabel) ? null : customLabel,
                 new { @class = "govuk-label" });
 
@@ -29,6 +50,38 @@ namespace GDSHelpers
 
             tagBuilder.WriteTo(writer, HtmlEncoder);
         }
+
+        /// <summary>
+        /// Updated version of generating label, it's checking if runtime model type is = view model type
+        /// if not it tries to get displayName attribute from runtime
+        /// </summary>
+        public void WriteLabel(TextWriter writer, string hiddenSpan = "", string customLabel = "")
+        {
+            //check if model declared in View is different than actual model
+            if (string.IsNullOrEmpty(customLabel) 
+                && IsViewModelTypeDifferentThanRuntimeType)
+            {
+                //using reflection we get displayName attr from runtime Model
+                customLabel = GetDisplayNameAttributeFromProperty(For.Name);
+            }
+
+            GenerateLabelHtml(writer, hiddenSpan, customLabel);
+        }
+
+        /// <summary>
+        /// Tries to get DisplayNameAttribute or DisplayAttribute from runtime model property
+        /// </summary>
+        private string GetDisplayNameAttributeFromProperty(string propertyName)
+        {
+            //it's an actual runtime model, not viewModel declared on view
+            MemberInfo property = For.ModelExplorer.Container.ModelType.GetProperty(propertyName);
+            return property?.GetCustomAttribute(typeof(DisplayNameAttribute)) is DisplayNameAttribute dd
+                ? dd.DisplayName
+                : property?.GetCustomAttribute(typeof(DisplayAttribute)) is DisplayAttribute da
+                    ? da.Name
+                    : null;
+        }
+
         #endregion
         #region WriteHint
         public void WriteHint(TextWriter writer, string description ="")
@@ -62,10 +115,6 @@ namespace GDSHelpers
         }
 
         #endregion
-
-
-   
-
 
         #region WriteTextArea
         public void WriteTextArea(TextWriter writer, bool addCounter = false)

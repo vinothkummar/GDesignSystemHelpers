@@ -34,5 +34,16 @@ namespace GDSHelpers.Extensions
             return htmlSanitizer.Sanitize(s);
         }
 
+        /// <summary>
+        /// Retrieve text from inside of html element like <label id='dd'>some text here</label>
+        /// </summary>
+        public static string GetTextInsideHtmlElement(this string htmlInput)
+        {
+            int tag1 = htmlInput.IndexOf(">");
+            int tag2 = htmlInput.IndexOf("</");
+            string rr = htmlInput.Substring(tag1 + 1, tag2 - tag1 - 1);
+            return rr;
+        }
+
     }
 }
