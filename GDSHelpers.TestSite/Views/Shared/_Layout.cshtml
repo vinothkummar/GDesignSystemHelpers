@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/css/govuk-frontend-2.12.0.min.css" />
+</head>
+<body>
+<gds-header>
+
+    <gds-header-container>
+        <div class="govuk-header__logo app-header__logo">
+            <img src="/images/cqc-logo.png" class="govuk-header__logotype-crown-fallback-image" alt="Care Quality Commission" />
+            <gds-logo></gds-logo>
+        </div>
+
+        <gds-header-content>
+            <span class="header_title">GDS TagHelpers for .NET Core (by CQC)</span>
+        </gds-header-content>
+
+    </gds-header-container>
+
+</gds-header>
+
+<gds-container>
+@RenderBody()
+</gds-container>
+</body>
+</html>

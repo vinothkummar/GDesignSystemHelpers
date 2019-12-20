@@ -1,0 +1,18 @@
+﻿@model object
+@{
+    ViewBag.Title = "GDS Helpers Available";
+}
+
+<gds-container>
+    <gds-heading heading-type="H2" text="GDS Helpers" />
+
+    <gds-paragraph>This sample site shows all the GDS tag helpers we have and the correct way to use them. It is also a playground for making new tag helpers and modifying existing ones.</gds-paragraph>
+
+    <gds-ul>
+        <gds-li><a asp-action="Tag" asp-controller="TagHelpers" asp-route-tagView="BackLink">Back link</a></gds-li>
+        <gds-li><a asp-action="Tag" asp-controller="TagHelpers" asp-route-tagView="Button">Button</a></gds-li>
+        <gds-li><a asp-action="Tag" asp-controller="TagHelpers" asp-route-tagView="TextBox">Text Box</a></gds-li>
+        <gds-li><a asp-action="Tag" asp-controller="TagHelpers" asp-route-tagView="OrderedList">Ordered list</a></gds-li>
+        <gds-li><a asp-action="Tag" asp-controller="TagHelpers" asp-route-tagView="UnorderedList">Unordered list</a></gds-li>
+    </gds-ul>
+</gds-container>
