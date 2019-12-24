@@ -2,7 +2,7 @@
 
 namespace GDSHelpers.Models
 {
-    public class BreadCumbs
+    public class BreadCrumbs
     {
         public List<Crumb> Crumbs { get; set; }
 

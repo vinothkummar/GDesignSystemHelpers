@@ -10,7 +10,7 @@ namespace GDSHelpers.TagHelpers
     public class BreadcrumbsHelper : TagHelper
     {
         [HtmlAttributeName("bread-crumbs")]
-        public BreadCumbs Breadcrumbs { get; set; }
+        public BreadCrumbs Breadcrumbs { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
